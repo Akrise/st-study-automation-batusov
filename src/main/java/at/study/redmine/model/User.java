@@ -38,6 +38,7 @@ public class User extends CreatableEntity implements Creatable<User> {
     private LocalDateTime passwordChangedOn;
     private List<Token> tokens = new ArrayList<>();
     private List<Email> emails = new ArrayList<>();
+    //test
 
     public String getHashedPassword() {
         return sha1Hex(salt + sha1Hex(password));

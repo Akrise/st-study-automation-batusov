@@ -10,5 +10,4 @@ public enum Status {
     LOCKED(3);
 
     public final int statusCode;
-
 }

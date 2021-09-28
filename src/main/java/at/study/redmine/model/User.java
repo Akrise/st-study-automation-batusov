@@ -10,6 +10,7 @@ import at.study.redmine.model.user.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import static at.study.redmine.utils.StringUtils.randomEnglishString;
 import static at.study.redmine.utils.StringUtils.randomHexString;
@@ -18,6 +19,7 @@ import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
 @NoArgsConstructor
 @Getter
 @Setter
+@Accessors(chain = true)
 public class User extends CreatableEntity implements Creatable<User> {
 
     private String login = "AutoLogin" + randomEnglishString(10);
@@ -40,7 +42,7 @@ public class User extends CreatableEntity implements Creatable<User> {
     private List<Email> emails = new ArrayList<>();
     //test
 
-    public String getHashedPassword() {
+    private String getHashedPassword() {
         return sha1Hex(salt + sha1Hex(password));
     }
 

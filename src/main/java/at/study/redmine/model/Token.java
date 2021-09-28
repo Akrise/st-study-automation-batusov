@@ -3,11 +3,13 @@ package at.study.redmine.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import static at.study.redmine.utils.StringUtils.randomHexString;
 
 @Getter
 @Setter
+@Accessors(chain = true)
 public class Token extends CreatableEntity implements Creatable<Token> {
 
     private Integer userId;

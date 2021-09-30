@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.study.redmine.db.requests.UserRequests;
 import at.study.redmine.model.user.Language;
 import at.study.redmine.model.user.MailNotification;
 import at.study.redmine.model.user.Status;
@@ -22,12 +23,12 @@ import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
 @Accessors(chain = true)
 public class User extends CreatableEntity implements Creatable<User> {
 
-    private String login = "AutoLogin" + randomEnglishString(10);
+    private String login = "BATAutoLogin" + randomEnglishString(10);
     private String password = "1qaz@WSX";
     private String salt = randomHexString(32);
     private String hashedPassword = getHashedPassword();
     private String firstName = "AutoF" + randomEnglishString(10);
-    private String lastName = "AutoL" + randomEnglishString(10);
+    private String lastName = "BATAutoL" + randomEnglishString(10);
     private Boolean isAdmin = false;
     private Status status = Status.ACTIVE;
     private LocalDateTime lastLoginOn;
@@ -40,15 +41,26 @@ public class User extends CreatableEntity implements Creatable<User> {
     private LocalDateTime passwordChangedOn;
     private List<Token> tokens = new ArrayList<>();
     private List<Email> emails = new ArrayList<>();
-    //test
 
-    private String getHashedPassword() {
+    public String getHashedPassword() {
         return sha1Hex(salt + sha1Hex(password));
     }
 
     @Override
     public User create() {
-        // TODO: Реализовать с помощью запроса к базе данных
-        throw new UnsupportedOperationException();
+         new UserRequests().create(this);
+        tokens.forEach(i -> i.setUserId(id));
+        tokens.forEach(Token::create);
+        emails.forEach(i -> i.setUserId(id));
+        emails.forEach(Email::create);
+        return this;
+    }
+
+    public void delete(){
+        new UserRequests().delete(id);
+    }
+
+    public void update(User user){
+        new UserRequests().update(id, user);
     }
 }

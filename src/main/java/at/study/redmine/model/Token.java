@@ -1,5 +1,6 @@
 package at.study.redmine.model;
 
+import at.study.redmine.db.requests.TokenRequests;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,12 +19,13 @@ public class Token extends CreatableEntity implements Creatable<Token> {
 
     public Token(User user) {
         this.userId = user.id;
+        user.getTokens().add(this);
     }
 
     @Override
     public Token create() {
-        // TODO: Реализовать с помощью SQL-Запроса
-        throw new UnsupportedOperationException();
+       new TokenRequests().create(this);
+       return this;
     }
 
     public enum TokenType {

@@ -6,6 +6,7 @@ import at.study.redmine.model.User;
 import jdk.nashorn.internal.codegen.ObjectClassGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -20,10 +21,16 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Accessors(chain = true)
+@NoArgsConstructor
 @AllArgsConstructor
 public class TokenRequests implements Create<Token>, ReadAll<Token> {
     private User user;
 
+
+    /**
+     * Записать токен в БД
+     * @param token токен для последующей записи
+     */
     @Override
     public void create(Token token) {
         String query = "INSERT INTO public.tokens\n" +

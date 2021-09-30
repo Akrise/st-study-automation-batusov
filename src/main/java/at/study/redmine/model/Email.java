@@ -1,5 +1,6 @@
 package at.study.redmine.model;
 
+import at.study.redmine.db.requests.EmailRequests;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,11 +20,12 @@ public class Email extends CreatableEntity implements Creatable<Email> {
 
     public Email(User user) {
         this.userId = user.id;
+        user.getEmails().add(this);
     }
 
     @Override
     public Email create() {
-        // TODO: Реализовать через SQL
-        throw new UnsupportedOperationException();
+        new EmailRequests().create(this);
+        return this;
     }
 }

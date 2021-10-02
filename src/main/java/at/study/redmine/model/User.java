@@ -21,7 +21,7 @@ import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class User extends CreatableEntity implements Creatable<User> {
+public class User extends CreatableEntity implements Creatable<User>, Readable<User>, Updatable<User>, Deletable<User> {
 
     private String login = "BATAutoLogin" + randomEnglishString(10);
     private String password = "1qaz@WSX";
@@ -56,11 +56,18 @@ public class User extends CreatableEntity implements Creatable<User> {
         return this;
     }
 
+    @Override
     public void delete(){
         new UserRequests().delete(id);
     }
 
+    @Override
     public void update(User user){
         new UserRequests().update(id, user);
+    }
+
+    @Override
+    public User read() {
+        throw new IllegalStateException("Не реализован");
     }
 }

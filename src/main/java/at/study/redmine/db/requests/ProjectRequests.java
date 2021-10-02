@@ -10,12 +10,12 @@ public class ProjectRequests implements Create<Project>, Read<Project>, Update<P
     @Override
     public void create(Project project) {
         String query = "INSERT INTO public.projects\n" +
-                "(name, description, homepage, is_public," +
+                "(id, name, description, homepage, is_public," +
                 "parent_id, created_on, updated_on, identifier, " +
                 "status, lft, rgt, inherit_members, " +
                 "default_version_id, default_assigned_to_id)\n" +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;\n";
-         List<Map<String, Object>> result = PostgresConnection.INSTANCE.executeQuery(query,
+                "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *;\n";
+        List<Map<String, Object>> result = PostgresConnection.INSTANCE.executeQuery(query,
                 project.getName(),
                 project.getDescription(),
                 project.getHomepage(),
@@ -24,7 +24,7 @@ public class ProjectRequests implements Create<Project>, Read<Project>, Update<P
                 project.getCreatedOn(),
                 project.getUpdatedOn(),
                 project.getIdentifier(),
-                Integer.parseInt(project.getStatus().description),//TODO проверить корректность записи в БД
+                Integer.parseInt(project.getStatus().description),
                 project.getLft(),
                 project.getRgt(),
                 project.getInheritMembers(),
@@ -38,7 +38,9 @@ public class ProjectRequests implements Create<Project>, Read<Project>, Update<P
 
     @Override
     public void delete(Integer id) {
-        throw new IllegalStateException("Метод не готов");
+        String query = "DELETE FROM public.projects\n" +
+                "WHERE id= ?;\n";
+        PostgresConnection.INSTANCE.executeUpdate(query, id);
     }
 
     @Override
@@ -47,7 +49,30 @@ public class ProjectRequests implements Create<Project>, Read<Project>, Update<P
     }
 
     @Override
-    public void update(Integer id, Project entity) {
-        throw new IllegalStateException("Метод не готов");
+    public void update(Integer id, Project project) {
+        String query = "UPDATE public.projects\n" +
+                "SET name = ?, description = ?, homepage = ?, is_public = ?, " +
+                "parent_id = ?, created_on = ?, updated_on = ?, identifier = ?, " +
+                "status = ?, lft = ?, rgt = ?, inherit_members = ?, " +
+                "default_version_id = ?, default_assigned_to_id = ?\n" +
+                "WHERE id= ?;\n";
+
+        PostgresConnection.INSTANCE.executeUpdate(query,
+                project.getName(),
+                project.getDescription(),
+                project.getHomepage(),
+                project.getIsPublic(),
+                project.getParentID(),
+                project.getCreatedOn(),
+                project.getUpdatedOn(),
+                project.getIdentifier(),
+                Integer.parseInt(project.getStatus().description),
+                project.getLft(),
+                project.getRgt(),
+                project.getInheritMembers(),
+                project.getDefault_version_id(),
+                project.getDefault_assigned_to_id(),
+                id
+        );
     }
 }

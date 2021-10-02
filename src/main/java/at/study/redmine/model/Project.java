@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Project extends CreatableEntity implements Creatable<Project> {
+public class Project extends CreatableEntity implements Creatable<Project>, Readable<Project>, Updatable<Project>, Deletable<Project> {
     private String name = "BATProject" + StringUtils.randomEnglishString(7);
     private String description = "Description" + StringUtils.randomEnglishString(10);
     private String homepage = StringUtils.randomEnglishString(10);
@@ -57,5 +55,21 @@ public class Project extends CreatableEntity implements Creatable<Project> {
 
     public Boolean getInheritMembers() {
         return this.inherit_members;
+    }
+
+    @Override
+    public void delete() {
+        new ProjectRequests().delete(id);
+    }
+
+    @Override
+    public Project read() {
+        new ProjectRequests().read(id);
+        return this;
+    }
+
+    @Override
+    public void update(Project project) {
+        new ProjectRequests().update(id, project);
     }
 }

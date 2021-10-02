@@ -7,5 +7,5 @@ public enum Status {
     OPEN("1"),
     CLOSE("0");
 
-    private final String description;
+    public final String description;
 }

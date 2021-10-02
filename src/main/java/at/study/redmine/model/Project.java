@@ -1,29 +1,36 @@
 package at.study.redmine.model;
 
+import at.study.redmine.db.connection.PostgresConnection;
+import at.study.redmine.db.requests.ProjectRequests;
 import at.study.redmine.model.project.Status;
+import at.study.redmine.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class Project extends Entity implements Creatable<Project> {
-    private String name;
-    private String description;
-    private String homepage;
-    private boolean isPublic;
-    private int parentID;
-    private String identifier;
+public class Project extends CreatableEntity implements Creatable<Project> {
+    private String name = "BATProject" + StringUtils.randomEnglishString(7);
+    private String description = "Description" + StringUtils.randomEnglishString(10);
+    private String homepage = StringUtils.randomEnglishString(10);
+    private Boolean isPublic = true;
+    private Integer parentID;
+    private String identifier = StringUtils.randomHexString(10);
     private Status status = Status.OPEN;
-    private int lft;
-    private int rgt;
-    private boolean inherit_members;
-    private int default_version_id;
-    private int default_assigned_to_id;
+    private Integer lft = 1;
+    private Integer rgt = 1;
+    private Boolean inherit_members = true;
+    private Integer default_version_id;
+    private Integer default_assigned_to_id;
     private Map<User, Set<Role>> members;
 
 
@@ -44,6 +51,11 @@ public class Project extends Entity implements Creatable<Project> {
 
     @Override
     public Project create() {
-        return null;
+        new ProjectRequests().create(this);
+        return this;
+    }
+
+    public Boolean getInheritMembers() {
+        return this.inherit_members;
     }
 }

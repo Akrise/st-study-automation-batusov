@@ -55,4 +55,15 @@ public class PostgresConnection implements DatabaseConnection {
         }
         return result;
     }
+
+
+    @Override
+    @SneakyThrows
+    public void executeUpdate(String query, Object... parameters) {
+        PreparedStatement statement = connection.prepareStatement(query);
+        for (int i = 0; i < parameters.length; i++) {
+            statement.setObject(i + 1, parameters[i]);
+        }
+        statement.executeUpdate();
+    }
 }

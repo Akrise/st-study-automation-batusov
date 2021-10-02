@@ -3,6 +3,7 @@ package at.tests;
 import at.study.redmine.model.Email;
 import at.study.redmine.model.Token;
 import at.study.redmine.model.User;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.testng.annotations.Test;
 
 import java.util.Random;
@@ -34,7 +35,20 @@ public class DBUserCreateTests {
         System.out.println(user.getPassword());
     }
 
+    @Test
     public void deleteUpdateUserTest(){
-        //TODO закончил тут
+        User user = new  User();
+        System.out.println(user.getLogin());
+        user.create();
+        System.out.println(user.getFirstName());
+        User newUser = new User();
+        newUser.setFirstName("ChangedName");
+        System.out.println("ID user:" + user.getId());
+        user.update(newUser);
+
+
+        user.delete();
+//        newUser.delete();
+        System.out.println("Done");
     }
 }

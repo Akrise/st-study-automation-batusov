@@ -1,5 +1,6 @@
 package at.study.redmine.model;
 
+import at.study.redmine.db.requests.RoleRequests;
 import at.study.redmine.model.role.IssuesVisibility;
 import at.study.redmine.model.role.Permissions;
 import at.study.redmine.model.role.UsersVisibility;
@@ -8,22 +9,28 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Role extends CreatableEntity implements  Creatable<Role>{
+public class Role extends CreatableEntity implements  Creatable<Role>, Readable<Role>, Updatable<Role>, Deletable<Role>{
 
-    private String name = "AutoRole" + StringUtils.randomEnglishString(6);
-    private int position;
-    private boolean assignable = true;
-    private int builtIn = 0;
-    private Set<Permissions> permissions;
+    private String name = "BATRole" + StringUtils.randomEnglishString(6);
+    private Integer position;
+    private Boolean assignable = true;
+    private Integer builtIn = 0;
+    private Set<Permissions> permissions = new HashSet<Permissions>(){{
+        permissions.add(Permissions.EDIT_ISSUES);
+        permissions.add(Permissions.VIEW_ISSUES);
+        permissions.add(Permissions.VIEW_MESSAGES);
+
+    }};
     private IssuesVisibility issuesVisibility = IssuesVisibility.DEFAULT;
     private UsersVisibility usersVisibility = UsersVisibility.ALL;
     private String timeEntriesVisibility = "all";
-    private boolean allRolesManaged = true;
+    private Boolean allRolesManaged = true;
     private String settings = "--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\n" +
             "permissions_all_trackers: !ruby/hash:ActiveSupport::HashWithIndifferentAccess\n" +
             "  view_issues: '1'\n" +
@@ -36,10 +43,26 @@ public class Role extends CreatableEntity implements  Creatable<Role>{
             "  add_issues: []\n" +
             "  edit_issues: []\n" +
             "  add_issue_notes: []\n" +
-            "  delete_issues: []\n";
+            "  delete_issues: []\n";//TODO Переделать как enum
 
     @Override
     public Role create() {
+        new RoleRequests().create(this);
+        return this;
+    }
+
+    @Override
+    public void delete() {
+
+    }
+
+    @Override
+    public Role read() {
         return null;
+    }
+
+    @Override
+    public void update(Role entity) {
+
     }
 }

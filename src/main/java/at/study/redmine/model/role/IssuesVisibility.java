@@ -8,5 +8,5 @@ public enum IssuesVisibility {
     OWN("Задачи созданные или назначенные пользователю"),
     DEFAULT("Только общие задачи");
 
-    private final String description;
+    public final String description;
 }

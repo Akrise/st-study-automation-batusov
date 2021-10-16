@@ -1,7 +1,6 @@
 package at.study.redmine.db.requests;
 
 import at.study.redmine.db.connection.PostgresConnection;
-import at.study.redmine.model.Creatable;
 import at.study.redmine.model.Email;
 import at.study.redmine.model.User;
 

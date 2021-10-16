@@ -8,11 +8,14 @@ import at.study.redmine.model.user.Status;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @NoArgsConstructor
-public class UserRequests implements Create<User>, Read<User>, Delete<User>, Update<User>{
+public class UserRequests implements Create<User>, Read<User>, Delete<User>, Update<User> {
 
     @Override
     public void create(User user) {
@@ -42,7 +45,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
                 user.getSalt(),
                 user.getMustChangePassword(),
                 user.getPasswordChangedOn()
-                );
+        );
 
         Integer userID = (Integer) result.get(0).get("id");
         user.setId(userID);
@@ -88,7 +91,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
                 user.getMustChangePassword(),
                 user.getPasswordChangedOn(),
                 id
-                );
+        );
     }
 
     @Override
@@ -98,25 +101,35 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
                 "WHERE id = ?;\n";
 
         List<Map<String, Object>> result = PostgresConnection.INSTANCE.executeQuery(query, id);
+        if (result.size() == 0){
+            throw new NoSuchElementException("По id " + id + " пользователей не найдено.");
+        }
         User user = new User();
         user.setLogin(result.get(0).get("login").toString());
         user.setHashedPassword(result.get(0).get("hashed_password").toString());
         user.setFirstName(result.get(0).get("firstname").toString());
         user.setLastName(result.get(0).get("lastname").toString());
-        user.setIsAdmin((Boolean)result.get(0).get("admin"));
-        user.setStatus(Status.valueOf(result.get(0).get("status").toString()));
-        user.setLastLoginOn(LocalDateTime.parse(result.get(0).get("last_login_in").toString()));//TODO доделать
-        user.setLanguage(Language.valueOf(result.get(0).get("language").toString()));
-        user.setAuthSourceId(result.get(0).get("auth_source_id").toString());
-        user.setCreatedOn(LocalDateTime.parse(result.get(0).get("created_on").toString()));
-        user.setUpdatedOn(LocalDateTime.parse(result.get(0).get("updated_on").toString()));
+        user.setIsAdmin((Boolean) result.get(0).get("admin"));
+        user.setStatus(Status.getValue((Integer) (result.get(0).get("status"))));
+        Object lastLogin = result.get(0).get("last_login_in");
+        user.setLastLoginOn(
+                lastLogin == null ? null : LocalDateTime.parse(lastLogin.toString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        user.setLanguage(Language.getValue(result.get(0).get("language").toString()));
+        Object authSourceId = result.get(0).get("auth_source_id");
+        user.setAuthSourceId(
+                authSourceId == null ? null : authSourceId.toString());
+        user.setCreatedOn(LocalDateTime.parse(result.get(0).get("created_on").toString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        user.setUpdatedOn(LocalDateTime.parse(result.get(0).get("updated_on").toString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         user.setType(result.get(0).get("type").toString());//TODO сделать через enum
-        user.setIdentityUrl(result.get(0).get("identity_url").toString());
-        user.setMailNotification(MailNotification.valueOf(result.get(0).get("").toString().toUpperCase()));
+        Object identityUrl = result.get(0).get("identity_url");
+        user.setIdentityUrl(
+                identityUrl == null ? null : identityUrl.toString());
+        user.setMailNotification(MailNotification.valueOf(result.get(0).get("mail_notification").toString().toUpperCase()));
         user.setSalt(result.get(0).get("salt").toString());
-        user.setMustChangePassword((Boolean)result.get(0).get("must_change_passwd"));
-        user.setPasswordChangedOn(LocalDateTime.parse(result.get(0).get("passwd_changed_on").toString()));
-
+        user.setMustChangePassword((Boolean) result.get(0).get("must_change_passwd"));
+        Object passwordChangedOn = result.get(0).get("passwd_changed_on");
+        user.setPasswordChangedOn(
+                passwordChangedOn == null ? null : LocalDateTime.parse(passwordChangedOn.toString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         return user;
     }
 }

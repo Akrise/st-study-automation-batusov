@@ -28,4 +28,9 @@ public class Email extends CreatableEntity implements Creatable<Email> {
         new EmailRequests().create(this);
         return this;
     }
+
+    @Override
+    public String toString() {
+        return address;
+    }
 }

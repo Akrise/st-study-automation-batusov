@@ -1,5 +1,6 @@
 package at.tests;
 
+import at.study.redmine.db.requests.UserRequests;
 import at.study.redmine.model.Email;
 import at.study.redmine.model.Token;
 import at.study.redmine.model.User;
@@ -50,5 +51,10 @@ public class DBUserCreateTests {
         user.delete();
 //        newUser.delete();
         System.out.println("Done");
+    }
+
+    @Test
+    public void readUser(){
+        User user = new UserRequests().read(28699);
     }
 }

@@ -43,7 +43,7 @@ public class RestAssuredClient implements RestApiClient {
     }
 
     /**
-     * Get query result thru RestAssured
+     * Get query result by RestAssured
      *
      * @param request Request to API
      * @return Response from API
@@ -68,4 +68,6 @@ public class RestAssuredClient implements RestApiClient {
     private Method toRestAssuredMethod(RestMethod restMethod) {
         return Method.valueOf(restMethod.name());
     }
+
+    //TODO закончил на 1:13
 }

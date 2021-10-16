@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Data
 @Accessors(chain = true)
-@AllArgsConstructor
 public class UserInfoDto {
 
     private UserDto user;
+    private List<String> errors;
 
+    public UserInfoDto(UserDto user) {
+        this.user = user;
+    }
 }

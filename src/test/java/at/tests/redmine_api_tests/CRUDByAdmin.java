@@ -6,8 +6,6 @@ import at.study.redmine.api.dto.users.UserDto;
 import at.study.redmine.api.dto.users.UserInfoDto;
 import at.study.redmine.api.rest_assured.RestAssuredClient;
 import at.study.redmine.api.rest_assured.RestAssuredRequest;
-import at.study.redmine.db.connection.DatabaseConnection;
-import at.study.redmine.db.connection.PostgresConnection;
 import at.study.redmine.db.requests.UserRequests;
 import at.study.redmine.model.Email;
 import at.study.redmine.model.Token;
@@ -18,11 +16,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static at.study.redmine.api.client.RestMethod.*;
-import static at.study.redmine.utils.StringUtils.*;
 
 public class CRUDByAdmin {
 
@@ -44,7 +40,7 @@ public class CRUDByAdmin {
     @Test
     public void CRUDByAdminTest() {
         //Отправить запрос POST на создание пользователя
-       // UserInfoDto userInfoDto = new UserInfoDto(new UserDto(null, "BATAPITest" + randomEnglishString(5), false, 2, "BatName", "LastName", randomEnglishString(8) + "@bat.ru", "qi&*123qee", LocalDateTime.now(), LocalDateTime.now()));
+        // UserInfoDto userInfoDto = new UserInfoDto(new UserDto(null, "BATAPITest" + randomEnglishString(5), false, 2, "BatName", "LastName", randomEnglishString(8) + "@bat.ru", "qi&*123qee", LocalDateTime.now(), LocalDateTime.now()));
         User user = new User();
         user.setStatus(Status.UNACCEPTED);
         user.setEmails(Collections.singletonList(new Email(user)));
@@ -98,19 +94,18 @@ public class CRUDByAdmin {
 
         //Отправить запрос DELETE на удаление пользователя
         request = new RestAssuredRequest(DELETE, "/users/" + userId + ".json", null, null, null);
-        try{
+        try {
             response = restAssuredClient.execute(request);
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             Assert.assertEquals(response.getStatusCode(), 204);
         }
 
         //Отправить запрос DELETE на удаление пользователя (повторно)
         request = new RestAssuredRequest(DELETE, "/users/" + userId + ".json", null, null, null);
-        try{
+        try {
             response = restAssuredClient.execute(request);
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             Assert.assertEquals(response.getStatusCode(), 404);
         }
-
     }
 }

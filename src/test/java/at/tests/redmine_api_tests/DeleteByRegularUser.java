@@ -18,7 +18,6 @@ public class DeleteByRegularUser {
 
     private User firstUser;
     private User secondUser;
-    private RestRequest request;
     private RestAssuredClient restAssuredClient;
 
     @BeforeMethod
@@ -36,12 +35,13 @@ public class DeleteByRegularUser {
     }
 
     @Test
-    public void DeleteByRegularUser(){
+    public void DeleteByRegularUser() {
         //Отправить запрос DELETE на удаление пользователя из п.3, используя ключ из п.2. (удаление другого пользователя)
-        request = new RestAssuredRequest(RestMethod.DELETE, "/users/" + secondUser.getId() + ".json", null, null, null);
+        RestRequest request = new RestAssuredRequest(RestMethod.DELETE, "/users/" + secondUser.getId() + ".json", null, null, null);
         RestResponse response = restAssuredClient.execute(request);
         Assert.assertEquals(response.getStatusCode(), 403);
         Assert.assertNotNull(secondUser.read().getId());
+
         //Отправить запрос DELETE на удаление пользователя из п.1, используя ключи из п.2 (удаление себя)
         request = new RestAssuredRequest(RestMethod.DELETE, "/users/" + firstUser.getId() + ".json", null, null, null);
         response = restAssuredClient.execute(request);

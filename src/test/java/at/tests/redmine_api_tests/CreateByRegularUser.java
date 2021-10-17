@@ -21,7 +21,6 @@ import java.util.List;
 public class CreateByRegularUser {
 
     private User user;
-    private RestRequest request;
     private RestAssuredClient restAssuredClient;
 
     @BeforeMethod
@@ -34,13 +33,13 @@ public class CreateByRegularUser {
         restAssuredClient = new RestAssuredClient(user);
     }
 
-
     @Test
     public void CreateByRegularUser() {
+        //Отправить запрос POST на создание пользователя (данные пользователя должны быть сгенерированы корректно)
         User userToCreate = new User();
         user.getEmails().add(new Email(userToCreate));
         UserInfoDto userInfoDto = new UserInfoDto(new UserDto(userToCreate));
-        request = new RestAssuredRequest(RestMethod.POST, "/users.json", null,null, new Gson().toJson(userInfoDto));
+        RestRequest request = new RestAssuredRequest(RestMethod.POST, "/users.json", null, null, new Gson().toJson(userInfoDto));
         RestResponse response = restAssuredClient.execute(request);
         Assert.assertEquals(response.getStatusCode(), 403);
     }

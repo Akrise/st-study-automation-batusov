@@ -68,6 +68,6 @@ public class User extends CreatableEntity implements Creatable<User>, Readable<U
 
     @Override
     public User read() {
-        throw new IllegalStateException("Не реализован");
+        return new UserRequests().read(id);
     }
 }

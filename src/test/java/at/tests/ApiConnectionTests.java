@@ -40,7 +40,7 @@ public class ApiConnectionTests {
 
     @Test
     public void createUserTest(){
-        UserInfoDto userInfoDto = new UserInfoDto(new UserDto(null,"BATAPITest2", false, 2, "BatName", "LastName", "sdjfkdj@djkdf.ru", "qi&*123qee", LocalDateTime.now(), LocalDateTime.now()));
+        UserInfoDto userInfoDto = new UserInfoDto(new UserDto(new User()));
 
         ADMIN_REQUEST_SPECIFICATION
                 .contentType(ContentType.JSON)

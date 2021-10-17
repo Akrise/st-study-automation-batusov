@@ -34,6 +34,9 @@ public class UserDto {
     @SerializedName("updated_on")
     private LocalDateTime updatedOn;
 
+    @SerializedName("api_key")
+    private String apiKey;
+
     public UserDto(User user) {
         login = user.getLogin();
         admin = user.getIsAdmin();

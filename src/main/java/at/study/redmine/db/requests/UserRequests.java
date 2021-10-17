@@ -105,6 +105,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
             throw new NoSuchElementException("По id " + id + " пользователей не найдено.");
         }
         User user = new User();
+        user.setId((Integer)result.get(0).get("id"));
         user.setLogin(result.get(0).get("login").toString());
         user.setHashedPassword(result.get(0).get("hashed_password").toString());
         user.setFirstName(result.get(0).get("firstname").toString());

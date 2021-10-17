@@ -33,5 +33,4 @@ public class Token extends CreatableEntity implements Creatable<Token> {
         FEEDS,
         SESSION
     }
-
 }

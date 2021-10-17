@@ -8,6 +8,7 @@ import at.study.redmine.db.requests.UserRequests;
 import at.study.redmine.model.user.Language;
 import at.study.redmine.model.user.MailNotification;
 import at.study.redmine.model.user.Status;
+import at.study.redmine.model.user.Type;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +35,7 @@ public class User extends CreatableEntity implements Creatable<User>, Readable<U
     private LocalDateTime lastLoginOn;
     private Language language = Language.RUSSIAN;
     private String authSourceId;
-    private String type = "User";
+    private Type type = Type.USER;
     private String identityUrl;
     private MailNotification mailNotification = MailNotification.NONE;
     private Boolean mustChangePassword = false;

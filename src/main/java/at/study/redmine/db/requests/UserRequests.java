@@ -5,6 +5,7 @@ import at.study.redmine.model.User;
 import at.study.redmine.model.user.Language;
 import at.study.redmine.model.user.MailNotification;
 import at.study.redmine.model.user.Status;
+import at.study.redmine.model.user.Type;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 @NoArgsConstructor
 public class UserRequests implements Create<User>, Read<User>, Delete<User>, Update<User> {
@@ -39,7 +39,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
                 user.getAuthSourceId(),
                 user.getCreatedOn(),
                 user.getUpdatedOn(),
-                user.getType(),
+                user.getType().dbType,
                 user.getIdentityUrl(),
                 user.getMailNotification().name().toLowerCase(),
                 user.getSalt(),
@@ -121,7 +121,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
                 authSourceId == null ? null : authSourceId.toString());
         user.setCreatedOn(LocalDateTime.parse(result.get(0).get("created_on").toString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         user.setUpdatedOn(LocalDateTime.parse(result.get(0).get("updated_on").toString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        user.setType(result.get(0).get("type").toString());//TODO сделать через enum
+        user.setType(Type.getValue(result.get(0).get("type").toString()));
         Object identityUrl = result.get(0).get("identity_url");
         user.setIdentityUrl(
                 identityUrl == null ? null : identityUrl.toString());

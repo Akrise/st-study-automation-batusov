@@ -43,7 +43,7 @@ public class Role extends CreatableEntity implements  Creatable<Role>, Readable<
             "  add_issues: []\n" +
             "  edit_issues: []\n" +
             "  add_issue_notes: []\n" +
-            "  delete_issues: []\n";//TODO Переделать как enum
+            "  delete_issues: []\n";
 
     @Override
     public Role create() {
@@ -53,16 +53,19 @@ public class Role extends CreatableEntity implements  Creatable<Role>, Readable<
 
     @Override
     public void delete() {
-
+        //TODO
+        throw new IllegalStateException("Метод не реализован.");
     }
 
     @Override
     public Role read() {
-        return null;
+        throw new IllegalStateException("Метод не реализован.");
+        //TODO
     }
 
     @Override
     public void update(Role entity) {
-
+        throw new IllegalStateException("Метод не реализован.");
+        //TODO
     }
 }

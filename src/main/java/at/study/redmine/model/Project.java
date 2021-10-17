@@ -1,6 +1,5 @@
 package at.study.redmine.model;
 
-import at.study.redmine.db.connection.PostgresConnection;
 import at.study.redmine.db.requests.ProjectRequests;
 import at.study.redmine.model.project.Status;
 import at.study.redmine.utils.StringUtils;
@@ -47,6 +46,10 @@ public class Project extends CreatableEntity implements Creatable<Project>, Read
         members.put(user, roles);
     }
 
+    /**
+     * Функция для создания в БД нового проекта со значениями по умолчанию
+     * @return Созданный проект
+     */
     @Override
     public Project create() {
         new ProjectRequests().create(this);
@@ -57,17 +60,28 @@ public class Project extends CreatableEntity implements Creatable<Project>, Read
         return this.inherit_members;
     }
 
+    /**
+     * Функция для удаления проекта из БД.
+     */
     @Override
     public void delete() {
         new ProjectRequests().delete(id);
     }
 
+    /**
+     * Функция для чтения проекта из БД
+     * @return Проект, прочитанный из БД
+     */
     @Override
     public Project read() {
         new ProjectRequests().read(id);
         return this;
     }
 
+    /**
+     * Функция для обновления значений проекта в БД
+     * @param project Новые занчения для обновления
+     */
     @Override
     public void update(Project project) {
         new ProjectRequests().update(id, project);

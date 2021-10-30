@@ -64,7 +64,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
         String query = "UPDATE public.users\n" +
                 "SET " +
                 "login= ?, hashed_password= ?, firstname= ?, " +
-                "lastname= ?, \"admin\"= ?, status= ?, " +
+                "lastname= ?, \"administration\"= ?, status= ?, " +
                 "last_login_on= ?, \"language\"= ?, auth_source_id= ?, " +
                 "created_on= ?, updated_on= ?, \"type\"= ?, " +
                 "identity_url= ?, mail_notification= ?, salt= ?, " +
@@ -110,7 +110,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
         user.setHashedPassword(result.get(0).get("hashed_password").toString());
         user.setFirstName(result.get(0).get("firstname").toString());
         user.setLastName(result.get(0).get("lastname").toString());
-        user.setIsAdmin((Boolean) result.get(0).get("admin"));
+        user.setIsAdmin((Boolean) result.get(0).get("administration"));
         user.setStatus(Status.getValue((Integer) (result.get(0).get("status"))));
         Object lastLogin = result.get(0).get("last_login_in");
         user.setLastLoginOn(

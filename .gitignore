@@ -1,4 +1,5 @@
 # Default ignored files
 /.idea/
 /target/
+/src/test/java/resources/drivers/
 at-study-automation.iml

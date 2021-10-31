@@ -15,17 +15,16 @@ import java.util.Set;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Role extends CreatableEntity implements  Creatable<Role>, Readable<Role>, Updatable<Role>, Deletable<Role>{
+public class Role extends CreatableEntity implements Creatable<Role>, Readable<Role>, Updatable<Role>, Deletable<Role> {
 
     private String name = "BATRole" + StringUtils.randomEnglishString(6);
     private Integer position;
     private Boolean assignable = true;
     private Integer builtIn = 0;
-    private Set<Permissions> permissions = new HashSet<Permissions>(){{
-        permissions.add(Permissions.EDIT_ISSUES);
-        permissions.add(Permissions.VIEW_ISSUES);
-        permissions.add(Permissions.VIEW_MESSAGES);
-
+    private Set<Permissions> permissions = new HashSet<Permissions>() {{
+        add(Permissions.VIEW_ISSUES);
+        add(Permissions.EDIT_ISSUES);
+        add(Permissions.VIEW_MESSAGES);
     }};
     private IssuesVisibility issuesVisibility = IssuesVisibility.DEFAULT;
     private UsersVisibility usersVisibility = UsersVisibility.ALL;

@@ -1,12 +1,15 @@
 package at.study.redmine.api.ui.pages;
 
 import at.study.redmine.api.ui.BrowserManager;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class HeaderPage extends Page{
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+public class HeaderPage extends Page {
 
     @FindBy(xpath = "//div[@id='top-menu']//a[@class='home']")
     public WebElement homepage;
@@ -47,8 +50,4 @@ public class HeaderPage extends Page{
     @FindBy(xpath = "//div[@id='header']//label[@for='q']")
     public WebElement searchLink;
 
-    public HeaderPage() {
-        WebDriver driver  = BrowserManager.getBrowser().getDriver();
-        PageFactory.initElements(driver, this);
-    }
 }

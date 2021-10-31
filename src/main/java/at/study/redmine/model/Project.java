@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class Project extends CreatableEntity implements Creatable<Project>, Read
     private Boolean inherit_members = true;
     private Integer default_version_id;
     private Integer default_assigned_to_id;
-    private Map<User, Set<Role>> members;
+    private Map<User, Set<Role>> members = new HashMap<>();
 
 
     /**

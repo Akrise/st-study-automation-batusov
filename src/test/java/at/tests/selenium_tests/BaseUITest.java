@@ -27,5 +27,6 @@ public class BaseUITest {
     @AfterMethod
     public void afterMethod(){
         browser.getDriver().quit();
+        browser=null;
     }
 }

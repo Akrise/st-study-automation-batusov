@@ -6,5 +6,12 @@ db.password=redmine_pass
 api.host=http://edu-at.dfu.i-teco.ru
 ui.host=http://edu-at.dfu.i-teco.ru
 
-browser=chrome
 element.timeout.seconds=5
+
+remote=true
+browser=chrome
+browser.version=86.0
+enable.vnc=true
+enable.video=false
+selenoid.hub.url=http://edu-at.dfu.i-teco.ru:10001/wd/hub
+

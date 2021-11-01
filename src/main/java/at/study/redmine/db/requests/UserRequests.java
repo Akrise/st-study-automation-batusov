@@ -1,6 +1,7 @@
 package at.study.redmine.db.requests;
 
 import at.study.redmine.db.connection.PostgresConnection;
+import at.study.redmine.model.Email;
 import at.study.redmine.model.User;
 import at.study.redmine.model.user.Language;
 import at.study.redmine.model.user.MailNotification;
@@ -49,8 +50,13 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
 
         Integer userID = (Integer) result.get(0).get("id");
         user.setId(userID);
-    }
 
+        if (user.getEmails().size() != 0) {
+            for (Email email : user.getEmails()) {
+                new EmailRequests().create(email);
+            }
+        }
+    }
 
     @Override
     public void delete(Integer id) {
@@ -101,11 +107,11 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
                 "WHERE id = ?;\n";
 
         List<Map<String, Object>> result = PostgresConnection.INSTANCE.executeQuery(query, id);
-        if (result.size() == 0){
+        if (result.size() == 0) {
             throw new NoSuchElementException("По id " + id + " пользователей не найдено.");
         }
         User user = new User();
-        user.setId((Integer)result.get(0).get("id"));
+        user.setId((Integer) result.get(0).get("id"));
         user.setLogin(result.get(0).get("login").toString());
         user.setHashedPassword(result.get(0).get("hashed_password").toString());
         user.setFirstName(result.get(0).get("firstname").toString());
@@ -131,6 +137,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
         Object passwordChangedOn = result.get(0).get("passwd_changed_on");
         user.setPasswordChangedOn(
                 passwordChangedOn == null ? null : LocalDateTime.parse(passwordChangedOn.toString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        user.setEmails(new EmailRequests().read(user));
         return user;
     }
 }

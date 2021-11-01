@@ -15,9 +15,6 @@ public class UserTable extends Page {
     @FindBy(xpath = "//div[@id='content']//a[@class='icon icon-add']")
     public WebElement newUser;
 
-    @FindBy(xpath = "//div[@id='content']//h2")
-    public WebElement pageName;
-
     @FindBy(xpath = "//table[@class = 'list users']//td[@class='username']")
     public List<WebElement> users;
 

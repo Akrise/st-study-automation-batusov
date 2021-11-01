@@ -23,6 +23,9 @@ public class Email extends CreatableEntity implements Creatable<Email> {
         user.getEmails().add(this);
     }
 
+    public Email(){
+    }
+
     @Override
     public Email create() {
         new EmailRequests().create(this);

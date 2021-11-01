@@ -4,9 +4,13 @@ import at.study.redmine.api.ui.BrowserManager;
 import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public abstract class Page {
+
+    @FindBy(xpath = "//div[@id='content']//h2")
+    public WebElement pageName;
 
     @SneakyThrows
     public static <T extends Page> T getPage(Class<T> clazz){

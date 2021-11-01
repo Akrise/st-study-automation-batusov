@@ -11,9 +11,6 @@ import org.openqa.selenium.support.PageFactory;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class Administration extends Page {
 
-    @FindBy(xpath = "//div[@id='content']//h2")
-    public WebElement pageName;
-
     @FindBy(xpath = "//div[@id='admin-menu']//a[contains(@class, 'projects')]")
     public WebElement projects;
 

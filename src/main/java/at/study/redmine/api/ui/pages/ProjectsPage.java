@@ -7,9 +7,6 @@ import java.util.List;
 
 public class ProjectsPage extends Page{
 
-    @FindBy(xpath = "//div[@id='content']//h2")
-    public WebElement pageName;
-
     @FindBy(xpath = "//div[@id='projects-index']//a[contains(@class, 'project root')]")
     public List<WebElement> titles;
 

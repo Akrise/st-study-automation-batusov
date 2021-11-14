@@ -9,6 +9,7 @@ import at.study.redmine.model.user.Language;
 import at.study.redmine.model.user.MailNotification;
 import at.study.redmine.model.user.Status;
 import at.study.redmine.model.user.Type;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,8 +49,9 @@ public class User extends CreatableEntity implements Creatable<User>, Readable<U
     }
 
     @Override
+    @Step("Создать пользователя в БД")
     public User create() {
-         new UserRequests().create(this);
+        new UserRequests().create(this);
         tokens.forEach(i -> i.setUserId(id));
         tokens.forEach(Token::create);
         emails.forEach(i -> i.setUserId(id));
@@ -58,16 +60,19 @@ public class User extends CreatableEntity implements Creatable<User>, Readable<U
     }
 
     @Override
-    public void delete(){
+    @Step("Удалить пользователя из БД")
+    public void delete() {
         new UserRequests().delete(id);
     }
 
     @Override
-    public void update(User user){
+    @Step("Обновить пользователя в БД")
+    public void update(User user) {
         new UserRequests().update(id, user);
     }
 
     @Override
+    @Step("Получить пользователя из БД")
     public User read() {
         return new UserRequests().read(id);
     }

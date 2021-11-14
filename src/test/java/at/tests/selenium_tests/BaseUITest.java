@@ -3,6 +3,7 @@ package at.tests.selenium_tests;
 import at.study.redmine.api.ui.Browser;
 import at.study.redmine.api.ui.BrowserManager;
 import at.study.redmine.api.ui.pages.*;
+import io.qameta.allure.Step;
 import org.testng.annotations.AfterMethod;
 
 public class BaseUITest {
@@ -14,7 +15,8 @@ public class BaseUITest {
     protected ProjectsPage projectsPage;
     protected NewUserPage newUserPage;
 
-    protected void openBrowser(){
+    @Step("Открыть браузер на главной странице")
+    protected void openBrowser() {
         browser = BrowserManager.getBrowser();
         userTable = Page.getPage(UserTable.class);
         administration = Page.getPage(Administration.class);
@@ -24,9 +26,9 @@ public class BaseUITest {
         newUserPage = Page.getPage(NewUserPage.class);
     }
 
-    @AfterMethod
-    public void afterMethod(){
-        browser.getDriver().quit();
-        browser=null;
+    @AfterMethod(description = "Закрыть браузер")
+    public void afterMethod() {
+        browser.takeScreenshot();
+        BrowserManager.removeBrowser();
     }
 }

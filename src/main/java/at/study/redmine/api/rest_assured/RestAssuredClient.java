@@ -7,6 +7,8 @@ import at.study.redmine.api.client.RestResponse;
 import at.study.redmine.model.Token;
 import at.study.redmine.model.User;
 import at.study.redmine.property.Property;
+import io.qameta.allure.Step;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
@@ -49,10 +51,12 @@ public class RestAssuredClient implements RestApiClient {
      * @return Response from API
      */
     @Override
+    @Step("Выполнение API-запроса")
     public RestResponse execute(RestRequest request) {
         RequestSpecification specification = given(requestSpecification)
                 .queryParams(request.getQueryParameters())
-                .headers(request.getHeaders());
+                .headers(request.getHeaders())
+                .filter(new AllureRestAssured());
         if (request.getBody() != null) {
             specification.body(request.getBody());
         }

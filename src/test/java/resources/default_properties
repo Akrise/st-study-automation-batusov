@@ -8,7 +8,7 @@ ui.host=http://edu-at.dfu.i-teco.ru
 
 element.timeout.seconds=5
 
-remote=true
+remote=false
 browser=chrome
 browser.version=86.0
 enable.vnc=true

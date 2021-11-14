@@ -1,6 +1,9 @@
 package at.study.redmine.db.connection;
 
+import at.study.redmine.allure.asserts.AllureAssert;
 import at.study.redmine.property.Property;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
@@ -36,11 +39,13 @@ public class PostgresConnection implements DatabaseConnection {
 
     @Override
     @SneakyThrows
+    @Step("Выполнение SQL запроса")
     public List<Map<String, Object>> executeQuery(String query, Object... parameters) {
         PreparedStatement statement = connection.prepareStatement(query);
         for (int i = 0; i < parameters.length; i++) {
             statement.setObject(i + 1, parameters[i]);
         }
+        Allure.addAttachment("SQL-запрос: ", statement.toString());
         ResultSet resultSet = statement.executeQuery();
 
         List<Map<String, Object>> result = new ArrayList<>();
@@ -53,6 +58,7 @@ public class PostgresConnection implements DatabaseConnection {
             }
             result.add(resultRow);
         }
+        Allure.addAttachment("SQL-ответ: ", result.toString());
         return result;
     }
 

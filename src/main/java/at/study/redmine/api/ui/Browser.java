@@ -1,9 +1,10 @@
 package at.study.redmine.api.ui;
 
 import at.study.redmine.property.Property;
+import io.qameta.allure.Attachment;
 import lombok.Getter;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -40,5 +41,27 @@ public class Browser {
      */
     public void get(String url){
         getDriver().get(Property.getStringProperty("ui.host") + url);
+    }
+
+    /**
+     * Сделать снимок экрана
+     * @return снимок экрана в виде массива байт
+     */
+    @Attachment("Скриншот браузера")
+    public byte[] takeScreenshot() {
+        return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    public Actions actions(){
+        return new Actions(driver);
+    }
+
+    /**
+     * Выполнить javascript код
+     * @param js javascript код
+     * @param args параметры
+     */
+    public void executeJavaScript(String js, Object... args){
+        ((JavascriptExecutor)driver).executeScript(js, args);
     }
 }

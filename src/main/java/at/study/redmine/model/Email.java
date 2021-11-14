@@ -1,6 +1,7 @@
 package at.study.redmine.model;
 
 import at.study.redmine.db.requests.EmailRequests;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Email extends CreatableEntity implements Creatable<Email> {
     }
 
     @Override
+    @Step("Создан email в БД")
     public Email create() {
         new EmailRequests().create(this);
         return this;

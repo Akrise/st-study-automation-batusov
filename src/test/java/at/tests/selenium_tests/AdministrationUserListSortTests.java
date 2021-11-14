@@ -1,7 +1,10 @@
 package at.tests.selenium_tests;
 
+import at.study.redmine.allure.asserts.AllureAssert;
 import at.study.redmine.model.User;
 import at.study.redmine.utils.CompareUtils;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,7 +21,9 @@ public class AdministrationUserListSortTests extends BaseUITest {
     private User secondUser;
 
 
-    @BeforeMethod
+    @BeforeMethod(description = "1. Заведен пользователь в системе с правами администратора\n" +
+            "2. Заведено несколько пользователей в системе\n" +
+            "3. Открыт браузер")
     public void prepareFixtures() {
         admin = new User() {{
             setIsAdmin(true);
@@ -28,62 +33,82 @@ public class AdministrationUserListSortTests extends BaseUITest {
         openBrowser();
     }
 
-    @Test
+    @Test(description = "Администрирование. Сортировка списка пользователей по пользователю")
     public void SortUserListByLoginTest() throws InterruptedException {
+        Allure.step("Нажать на кнопку \"Вход\"");
         headerPage.login.click();
         //1. Отображается домашняя страница
         loginPage.login(admin);
-        Assert.assertEquals(browser.getDriver().getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/");
+        AllureAssert.assertEquals(
+                browser.getDriver().getCurrentUrl(),
+                "http://edu-at.dfu.i-teco.ru/",
+                "Отображается домашняя страница");
         //1. Отображается страница "Администрирование"
+        Allure.step("На главной странице нажать \"Администрирование\"");
         headerPage.administration.click();
-        Assert.assertEquals(administration.pageName.getText(), "Администрирование");
+        AllureAssert.assertEquals(
+                administration.pageName.getText(),
+                "Администрирование",
+                "Отображается страница \"Администрирование\"");
         //1. Отображается таблица с пользователями
+        Allure.step("Нажать на кнопку \"Пользователи\" в меню Администрирования");
         administration.users.click();
-        Assert.assertEquals(userTable.pageName.getText(), "Пользователи");
+        AllureAssert.assertEquals(
+                userTable.pageName.getText(),
+                "Пользователи",
+                "Отображается таблица с пользователями");
         //2. Таблица с пользователями отсортирована по логину пользователей по возрастанию
         List<String> users = getElementsText(userTable.users);
-        Assert.assertTrue(CompareUtils.isListSortedByAsc(users));
+        AllureAssert.assertTrue(CompareUtils.isListSortedByAsc(users), "Таблица с пользователями отсортирована по логину пользователей по возрастанию");
         //1. Таблица с пользователями отсортирована по логину пользователей по убыванию
+        Allure.step("В шапке таблицы нажать на кнопку \"Пользователь\"");
         userTable.button("Пользователь").click();
         users = getElementsText(userTable.users);
-        Assert.assertTrue(CompareUtils.isListSortedByDesc(users));
+        AllureAssert.assertTrue(CompareUtils.isListSortedByDesc(users), "Таблица с пользователями отсортирована по логину пользователей по убыванию");
     }
 
-    @Test
+    @Test(description = "Администрирование. Сортировка списка пользователей по имени и фамилии")
     public void sortUserListByNameAndSurnameTest(){
+        Allure.step("Нажать на кнопку \"Вход\"");
         headerPage.login.click();
         //1. Отображается домашняя страница
         loginPage.login(admin);
-        Assert.assertEquals(browser.getDriver().getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/");
+        AllureAssert.assertEquals(browser.getDriver().getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/", "Отображается домашняя страница" );
         //1. Отображается страница "Администрирование"
+        Allure.step("На главной странице нажать \"Администрирование\"");
         headerPage.administration.click();
-        Assert.assertEquals(administration.pageName.getText(), "Администрирование");
+        AllureAssert.assertEquals(administration.pageName.getText(), "Администрирование", "Отображается страница \"Администрирование\"");
         //1. Отображается таблица с пользователями
+        Allure.step("Нажать на кнопку \"Пользователи\" в меню Администрирования");
         administration.users.click();
-        Assert.assertEquals(userTable.pageName.getText(), "Пользователи");
+        AllureAssert.assertEquals(userTable.pageName.getText(), "Пользователи", "\"Отображается таблица с пользователями\"");
         //2. Таблица с пользователями не отсортирована по фамилии
-        Assert.assertFalse(isWebListSorted((userTable.lastNames)));
+        AllureAssert.assertFalse(isWebListSorted((userTable.lastNames)), "Таблица с пользователями отсортирована по фамилии");
         //3. Таблица с пользователями не отсортирована по имени
-        Assert.assertFalse(isWebListSorted(userTable.firstNames));
+        AllureAssert.assertFalse(isWebListSorted(userTable.firstNames), "Таблица с пользователями отсортирована по имени");
         //1. Таблица с пользователями отсортирована по фамилии по возрастанию (не учитывается регистр)
+        Allure.step("В шапке таблицы нажать на \"Фамилия\"");
         userTable.button("Фамилия").click();
-        Assert.assertTrue(isWebListSortedByAsc(userTable.lastNames));
+        AllureAssert.assertTrue(isWebListSortedByAsc(userTable.lastNames), "Таблица с пользователями отсортирована по фамилии по возрастанию (не учитывается регистр)");
         //2. Таблица с пользователями не отсортирована по имени
-        Assert.assertFalse(isWebListSorted(userTable.firstNames));
+        AllureAssert.assertFalse(isWebListSorted(userTable.firstNames), "Таблица с пользователями отсортирована по имени");
         //1. Таблица с пользователями отсортирована по фамилии по убыванию (не учитывается регистр)
+        Allure.step("В шапке таблицы нажать на \"Фамилия\"");
         userTable.button("Фамилия").click();
-        Assert.assertTrue(isWebListSortedByDesc(userTable.lastNames));
+        AllureAssert.assertTrue(isWebListSortedByDesc(userTable.lastNames), " Таблица с пользователями отсортирована по фамилии по убыванию (не учитывается регистр)");
         //2. Таблица с пользователями не отсортирована по имени
-        Assert.assertFalse(isWebListSorted(userTable.firstNames));
+        AllureAssert.assertFalse(isWebListSorted(userTable.firstNames), "Таблица с пользователями отсортирована по имени");
         //1. Таблица с пользователями не отсортирована по фамилии
+        Allure.step("В шапке таблицы нажать на \"Имя\"");
         userTable.button("Имя").click();
-        Assert.assertFalse(isWebListSorted(userTable.lastNames));
+        AllureAssert.assertFalse(isWebListSorted(userTable.lastNames), "Таблица с пользователями отсортирована по фамилии");
         //2. Таблица с пользователями отсортирована по имени по возрастанию (не учитывается регистр)
-        Assert.assertTrue(isWebListSortedByAsc(userTable.firstNames));
+        AllureAssert.assertTrue(isWebListSortedByAsc(userTable.firstNames), "Таблица с пользователями отсортирована по имени по возрастанию (не учитывается регистр)");
         //1. Таблица с пользователями не отсортирована по фамилии
+        Allure.step("В шапке таблицы нажать на \"Имя\"");
         userTable.button("Имя").click();
-        Assert.assertFalse(isWebListSorted(userTable.lastNames));
+        AllureAssert.assertFalse(isWebListSorted(userTable.lastNames), "Таблица с пользователями отсортирована по фамилии");
         //2. Таблица с пользователями отсортирована по имени по убыванию (не учитывается регистр)
-        Assert.assertTrue(isWebListSortedByDesc(userTable.firstNames));
+        AllureAssert.assertTrue(isWebListSortedByDesc(userTable.firstNames), "Таблица с пользователями отсортирована по имени по убыванию (не учитывается регистр)");
     }
 }

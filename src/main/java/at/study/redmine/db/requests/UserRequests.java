@@ -7,6 +7,7 @@ import at.study.redmine.model.user.Language;
 import at.study.redmine.model.user.MailNotification;
 import at.study.redmine.model.user.Status;
 import at.study.redmine.model.user.Type;
+import io.qameta.allure.Step;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -101,6 +102,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
     }
 
     @Override
+    @Step("Получить пользователя из БД")
     public User read(Integer id) {
         String query = "SELECT *\n" +
                 "FROM public.users\n" +

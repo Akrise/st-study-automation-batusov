@@ -2,6 +2,8 @@ package at.study.redmine.api.ui.pages;
 
 import at.study.redmine.model.Email;
 import at.study.redmine.model.User;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -37,11 +39,17 @@ public class NewUserPage extends Page {
         createUser(new User());
     }
 
+    @Step("Заполнить поля на странице создания пользователя и нажать кнопку Создать")
     public void createUser(User user){
+        Allure.step("Заполнить поле Логин");
         login.sendKeys(user.getLogin());
+        Allure.step("Заполнить поле Имя");
         firstname.sendKeys(user.getFirstName());
+        Allure.step("Заполнить поле Фамилия");
         lastname.sendKeys(user.getLastName());
+        Allure.step("Заполнить поле Email");
         email.sendKeys(user.getEmails().stream().filter(Email::getIsDefault).findFirst().orElse(new Email(user)).getAddress());
+        Allure.step("Установить чекбокс Создание пароля");
         isPasswordGenerated.click();
         createButton.click();
     }

@@ -21,8 +21,8 @@ public class AdministrationUserListSortTests extends BaseUITest {
     private User secondUser;
 
 
-    @BeforeMethod(description = "1. Заведен пользователь в системе с правами администратора\n" +
-            "2. Заведено несколько пользователей в системе\n" +
+    @BeforeMethod(description = "1. Создан пользователь в системе с правами администратора\n" +
+            "2. Создано несколько пользователей в системе\n" +
             "3. Открыт браузер")
     public void prepareFixtures() {
         admin = new User() {{

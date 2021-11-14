@@ -5,6 +5,7 @@ import at.study.redmine.model.role.IssuesVisibility;
 import at.study.redmine.model.role.Permissions;
 import at.study.redmine.model.role.UsersVisibility;
 import at.study.redmine.utils.StringUtils;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -45,6 +46,7 @@ public class Role extends CreatableEntity implements Creatable<Role>, Readable<R
             "  delete_issues: []\n";
 
     @Override
+    @Step("Создать новую роль в БД")
     public Role create() {
         new RoleRequests().create(this);
         return this;

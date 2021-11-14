@@ -3,6 +3,7 @@ package at.study.redmine.model;
 import at.study.redmine.db.requests.ProjectRequests;
 import at.study.redmine.model.project.Status;
 import at.study.redmine.utils.StringUtils;
+import io.qameta.allure.Step;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,6 +54,7 @@ public class Project extends CreatableEntity implements Creatable<Project>, Read
      * @return Созданный проект
      */
     @Override
+    @Step("Создать новый проект в БД")
     public Project create() {
         new ProjectRequests().create(this);
         return this;

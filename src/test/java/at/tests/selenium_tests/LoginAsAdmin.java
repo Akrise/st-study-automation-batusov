@@ -49,8 +49,8 @@ public class LoginAsAdmin extends BaseUITest {
         AllureAssert.assertTrue(headerPage.myAccount.isDisplayed(), "Отображается элемент \"Моя учётная запись\"");
         AllureAssert.assertTrue(headerPage.exit.isDisplayed(), "Отображается элемент \"Выйти\"");
         //4. В заголовке страницы не отображаются элементы "Войти", "Регистрация"
-        AllureAssert.assertFalse(BrowserUtils.isElementPresent(headerPage.login), "Отображается элемент \"Войти\"");
-        AllureAssert.assertFalse(BrowserUtils.isElementPresent(headerPage.accountRegister), "Отображается элемент \"Регистрация\"");
+        AllureAssert.assertFalse(BrowserUtils.isElementPresent(headerPage.login), "Не отображается элемент \"Войти\"");
+        AllureAssert.assertFalse(BrowserUtils.isElementPresent(headerPage.accountRegister), "Не отображается элемент \"Регистрация\"");
         //5. Отображается элемент "Поиск"
         AllureAssert.assertTrue(headerPage.searchField.isDisplayed(), "Отображается поле для поиска");
         AllureAssert.assertTrue(headerPage.searchLink.isDisplayed(), "Отображается элемент \"Поиск:\"");

@@ -23,7 +23,7 @@ public class LoginAsActiveUserTest extends BaseUITest {
 
     @Test(description = "Авторизация подтвержденным пользователем")
     public void loginAsActiveUserTest() {
-        Allure.step("Нажать на кнопку \"Вход\"");
+        Allure.step("Нажать на кнопку \"Войти\"");
         headerPage.login.click();
         loginPage.login(user);
         //1. Отображается домашняя страница

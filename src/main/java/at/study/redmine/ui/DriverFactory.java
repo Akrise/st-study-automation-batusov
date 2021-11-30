@@ -1,8 +1,7 @@
-package at.study.redmine.api.ui;
+package at.study.redmine.ui;
 
 import at.study.redmine.property.Property;
 import com.google.common.collect.ImmutableMap;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.SneakyThrows;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;

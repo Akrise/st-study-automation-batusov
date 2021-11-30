@@ -1,7 +1,7 @@
 package steps;
 
-import at.study.redmine.api.ui.pages.LoginPage;
-import at.study.redmine.api.ui.pages.Page;
+import at.study.redmine.ui.pages.LoginPage;
+import at.study.redmine.ui.pages.Page;
 import at.study.redmine.context.Context;
 import at.study.redmine.model.User;
 import cucumber.api.java.ru.И;

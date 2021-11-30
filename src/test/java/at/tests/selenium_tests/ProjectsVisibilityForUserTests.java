@@ -5,15 +5,13 @@ import at.study.redmine.model.Project;
 import at.study.redmine.model.Role;
 import at.study.redmine.model.User;
 import io.qameta.allure.Allure;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import static at.study.redmine.api.ui.BrowserUtils.getElementsText;
+import static at.study.redmine.ui.BrowserUtils.getElementsText;
 
 public class ProjectsVisibilityForUserTests extends BaseUITest {
 

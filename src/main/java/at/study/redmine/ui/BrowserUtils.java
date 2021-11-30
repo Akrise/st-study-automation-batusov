@@ -1,9 +1,8 @@
-package at.study.redmine.api.ui;
+package at.study.redmine.ui;
 
 import at.study.redmine.property.Property;
 import org.openqa.selenium.WebElement;
 
-import javax.xml.ws.WebEndpoint;
 import java.util.List;
 import org.openqa.selenium.NoSuchElementException;
 import java.util.concurrent.TimeUnit;

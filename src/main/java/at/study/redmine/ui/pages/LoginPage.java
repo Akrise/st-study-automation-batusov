@@ -1,24 +1,27 @@
-package at.study.redmine.api.ui.pages;
+package at.study.redmine.ui.pages;
 
-import at.study.redmine.api.ui.BrowserManager;
+import at.study.redmine.cucumber.ElementName;
+import at.study.redmine.cucumber.PageName;
 import at.study.redmine.model.User;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.Test;
 
+@PageName("Авторизация")
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class LoginPage extends Page {
 
+    @ElementName("Пользователь")
     @FindBy(xpath = "//input[@id='username']")
     public WebElement username;
 
+    @ElementName("Пароль")
     @FindBy(xpath = "//input[@id='password']")
     public WebElement password;
 
+    @ElementName("Вход")
     @FindBy(xpath = "//input[@id='login-submit']")
     public WebElement loginButton;
 

@@ -1,17 +1,15 @@
 package at.tests.selenium_tests;
 
 import at.study.redmine.allure.asserts.AllureAssert;
-import at.study.redmine.api.ui.BrowserUtils;
 import at.study.redmine.model.Project;
 import at.study.redmine.model.User;
 import io.qameta.allure.Allure;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static at.study.redmine.api.ui.BrowserUtils.*;
+import static at.study.redmine.ui.BrowserUtils.*;
 
 public class ProjectVisibilityForAdminTests extends BaseUITest {
 
@@ -33,7 +31,7 @@ public class ProjectVisibilityForAdminTests extends BaseUITest {
 
     @Test(description = "Видимость проекта. Приватный проект. Администратор")
     public void adminSeesPrivateProject() {
-        Allure.step("Нажать на кнопку \"Вход\"", () -> {
+        Allure.step("Нажать на кнопку \"Войти\"", () -> {
             headerPage.login.click();
         });
         loginPage.login(admin);

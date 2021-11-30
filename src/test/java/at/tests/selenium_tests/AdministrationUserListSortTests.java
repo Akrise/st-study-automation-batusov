@@ -4,14 +4,12 @@ import at.study.redmine.allure.asserts.AllureAssert;
 import at.study.redmine.model.User;
 import at.study.redmine.utils.CompareUtils;
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static at.study.redmine.api.ui.BrowserUtils.getElementsText;
+import static at.study.redmine.ui.BrowserUtils.getElementsText;
 import static at.study.redmine.utils.CompareUtils.*;
 
 public class AdministrationUserListSortTests extends BaseUITest {

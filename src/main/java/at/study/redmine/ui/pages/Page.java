@@ -1,6 +1,7 @@
-package at.study.redmine.api.ui.pages;
+package at.study.redmine.ui.pages;
 
-import at.study.redmine.api.ui.BrowserManager;
+import at.study.redmine.cucumber.ElementName;
+import at.study.redmine.ui.BrowserManager;
 import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public abstract class Page {
 
+    @ElementName("Имя страницы")
     @FindBy(xpath = "//div[@id='content']//h2")
     public WebElement pageName;
 

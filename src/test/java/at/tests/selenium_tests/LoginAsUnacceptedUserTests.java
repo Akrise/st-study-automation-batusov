@@ -1,11 +1,10 @@
 package at.tests.selenium_tests;
 
 import at.study.redmine.allure.asserts.AllureAssert;
-import at.study.redmine.api.ui.BrowserUtils;
+import at.study.redmine.ui.BrowserUtils;
 import at.study.redmine.model.User;
 import at.study.redmine.model.user.Status;
 import io.qameta.allure.Allure;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

@@ -19,6 +19,7 @@
         <allure.version>2.15.0</allure.version>
         <aspectj.version>1.8.10</aspectj.version>
         <cucumber.version>4.2.4</cucumber.version>
+        <reflections.version>0.10.2</reflections.version>
     </properties>
 
     <dependencies>
@@ -93,6 +94,14 @@
             <version>${cucumber.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-java-commons -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
@@ -112,6 +121,13 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
         </dependency>
 
 

@@ -1,5 +1,7 @@
-package at.study.redmine.api.ui.pages;
+package at.study.redmine.ui.pages;
 
+import at.study.redmine.cucumber.ElementName;
+import at.study.redmine.cucumber.PageName;
 import at.study.redmine.model.Email;
 import at.study.redmine.model.User;
 import io.qameta.allure.Allure;
@@ -7,28 +9,34 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.nio.file.WatchEvent;
-
+@PageName("Создание пользователя")
 public class NewUserPage extends Page {
 
+    @ElementName("Пользователь")
     @FindBy(xpath = "//div[@id='content']//input[@id='user_login']")
     public WebElement login;
 
+    @ElementName("Имя")
     @FindBy(xpath = "//div[@id='content']//input[@id='user_firstname']")
     public WebElement firstname;
 
+    @ElementName("Фамилия")
     @FindBy(xpath = "//div[@id='content']//input[@id='user_lastname']")
     public WebElement lastname;
 
+    @ElementName("Email")
     @FindBy(xpath = "//div[@id='content']//input[@id='user_mail']")
     public WebElement email;
 
+    @ElementName("Создание пароля")
     @FindBy(xpath = "//div[@id='content']//input[@id='user_generate_password']")
     public WebElement isPasswordGenerated;
 
+    @ElementName("Создать")
     @FindBy(xpath = "//div[@id='content']//input[@name='commit']")
     public WebElement createButton;
 
+    @ElementName("Уведомления по email")
     @FindBy(xpath = "//div[@id='content']//div[@class='flash notice']")
     public WebElement notice;
 

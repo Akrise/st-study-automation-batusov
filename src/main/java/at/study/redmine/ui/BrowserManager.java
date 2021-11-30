@@ -1,6 +1,4 @@
-package at.study.redmine.api.ui;
-
-import at.study.redmine.api.ui.Browser;
+package at.study.redmine.ui;
 
 public class BrowserManager {
 
@@ -21,8 +19,7 @@ public class BrowserManager {
     }
 
     public static void removeBrowser() {
-        //TODO поменять на quit
-        browser.getDriver().close();
+        browser.getDriver().quit();
         browser = null;
     }
 }

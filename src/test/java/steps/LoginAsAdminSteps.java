@@ -1,11 +1,6 @@
 package steps;
 
-import at.study.redmine.api.ui.BrowserManager;
-import at.study.redmine.api.ui.pages.HeaderPage;
-import at.study.redmine.api.ui.pages.LoginPage;
-import at.study.redmine.api.ui.pages.Page;
 import at.study.redmine.model.User;
-import cucumber.api.java.ru.И;
 
 public class LoginAsAdminSteps {
 

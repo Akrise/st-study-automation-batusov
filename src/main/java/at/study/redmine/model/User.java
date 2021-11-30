@@ -54,8 +54,6 @@ public class User extends CreatableEntity implements Creatable<User>, Readable<U
         new UserRequests().create(this);
         tokens.forEach(i -> i.setUserId(id));
         tokens.forEach(Token::create);
-        emails.forEach(i -> i.setUserId(id));
-        emails.forEach(Email::create);
         return this;
     }
 

@@ -1,8 +1,8 @@
 package at.tests.selenium_tests;
 
-import at.study.redmine.api.ui.Browser;
-import at.study.redmine.api.ui.BrowserManager;
-import at.study.redmine.api.ui.pages.*;
+import at.study.redmine.ui.Browser;
+import at.study.redmine.ui.BrowserManager;
+import at.study.redmine.ui.pages.*;
 import io.qameta.allure.Step;
 import org.testng.annotations.AfterMethod;
 

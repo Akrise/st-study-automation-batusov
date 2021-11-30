@@ -1,6 +1,6 @@
 package steps;
 
-import at.study.redmine.api.ui.BrowserManager;
+import at.study.redmine.ui.BrowserManager;
 import cucumber.api.java.ru.И;
 
 public class BrowserSteps {

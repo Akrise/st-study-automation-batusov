@@ -1,4 +1,4 @@
-package at.study.redmine.api.ui;
+package at.study.redmine.ui;
 
 import at.study.redmine.property.Property;
 import io.qameta.allure.Attachment;

@@ -1,13 +1,11 @@
 package at.study.redmine.utils;
 
-import at.study.redmine.api.ui.BrowserUtils;
+import at.study.redmine.ui.BrowserUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 

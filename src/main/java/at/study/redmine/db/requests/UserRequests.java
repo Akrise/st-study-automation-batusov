@@ -54,6 +54,7 @@ public class UserRequests implements Create<User>, Read<User>, Delete<User>, Upd
 
         if (user.getEmails().size() != 0) {
             for (Email email : user.getEmails()) {
+                email.setUserId(userID);
                 new EmailRequests().create(email);
             }
         }

@@ -10,7 +10,7 @@ public class BaseUITest {
     protected Browser browser;
     protected HeaderPage headerPage;
     protected LoginPage loginPage;
-    protected Administration administration;
+    protected AdministrationPage administrationPage;
     protected UserTable userTable;
     protected ProjectsPage projectsPage;
     protected NewUserPage newUserPage;
@@ -19,7 +19,7 @@ public class BaseUITest {
     protected void openBrowser() {
         browser = BrowserManager.getBrowser();
         userTable = Page.getPage(UserTable.class);
-        administration = Page.getPage(Administration.class);
+        administrationPage = Page.getPage(AdministrationPage.class);
         loginPage = Page.getPage(LoginPage.class);
         headerPage = Page.getPage(HeaderPage.class);
         projectsPage = Page.getPage(ProjectsPage.class);

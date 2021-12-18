@@ -15,7 +15,7 @@ public abstract class Page {
     public WebElement pageName;
 
     @SneakyThrows
-    public static <T extends Page> T getPage(Class<T> clazz){
+    public static <T extends Page> T getPage(Class<T> clazz) {
         T page = clazz.getDeclaredConstructor().newInstance();
         PageFactory.initElements(BrowserManager.getBrowser().getDriver(), page);
         return page;

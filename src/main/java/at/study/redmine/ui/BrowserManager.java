@@ -2,24 +2,24 @@ package at.study.redmine.ui;
 
 public class BrowserManager {
 
-    private static Browser browser;
+    private static ThreadLocal<Browser> browser = new ThreadLocal<>();
 
     public static Browser getBrowser() {
-        if (browser == null) {
-            browser = new Browser();
+        if (browser.get() == null) {
+            browser.set(new Browser());
         }
-        return browser;
+        return browser.get();
     }
 
     public static Browser getBrowser(String url) {
-        if (browser == null) {
-            browser = new Browser(url);
+        if (browser.get() == null) {
+            browser.set(new Browser(url));
         }
-        return browser;
+        return browser.get();
     }
 
     public static void removeBrowser() {
-        browser.getDriver().quit();
-        browser = null;
+        browser.get().getDriver().quit();
+        browser.set(null);
     }
 }

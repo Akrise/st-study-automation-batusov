@@ -44,7 +44,9 @@ public class UserDto {
         firstName = user.getFirstName();
         lastName = user.getLastName();
         password = user.getPassword();
-        mail = user.getEmails().stream().filter(Email::getIsDefault).findFirst().get().toString();
+        if(user.getEmails()!=null && user.getEmails().stream().anyMatch(Email::getIsDefault)) {
+            mail = user.getEmails().stream().filter(Email::getIsDefault).findFirst().get().toString();
+        }
         createdOn = user.getCreatedOn();
         updatedOn = user.getUpdatedOn();
     }

@@ -38,7 +38,7 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
         super.runScenario(pickleWrapper, featureWrapper);
     }
 
-    @DataProvider
+    @DataProvider(parallel = true)
     @Override
     public Object[][] scenarios() {
         System.out.println("Total scenarious count: " + super.scenarios().length);
@@ -52,12 +52,12 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
     }
 
     @BeforeMethod
-    public void beforeMethod(Method method, Object[] testData){
+    public void beforeMethod(Method method, Object[] testData) {
 
     }
 
     @AfterMethod(alwaysRun = true)
-    public void afterMethod(Method method, Object[] testData){
+    public void afterMethod(Method method, Object[] testData) {
         Context.clearStash();
         BrowserManager.removeBrowser();
     }

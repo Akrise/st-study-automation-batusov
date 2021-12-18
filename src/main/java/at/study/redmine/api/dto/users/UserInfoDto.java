@@ -1,6 +1,5 @@
 package at.study.redmine.api.dto.users;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

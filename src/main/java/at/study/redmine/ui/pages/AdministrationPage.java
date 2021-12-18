@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 @PageName("Администрирование")
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-public class Administration extends Page {
+public class AdministrationPage extends Page {
 
     @ElementName("Проекты")
     @FindBy(xpath = "//div[@id='admin-menu']//a[contains(@class, 'projects')]")

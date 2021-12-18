@@ -1,6 +1,5 @@
 package at.study.redmine.allure.asserts;
 
-import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.testng.Assert;
 

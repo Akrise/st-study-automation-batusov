@@ -9,7 +9,8 @@ public enum Language {
 
     public final String languageCode;
 
-    public static Language getValue(String code){
+    public static Language getValue(String code) {
+        //TODO переделать без if
         if (code.equals("ru")) {
             return Language.RUSSIAN;
         }

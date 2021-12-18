@@ -38,12 +38,12 @@ public class CreateUserByAdminTests extends BaseUITest {
         Allure.step("На главной странице нажать \"Администрирование\"");
         headerPage.administration.click();
         Assert.assertEquals(
-                administration.pageName.getText(),
+                administrationPage.pageName.getText(),
                 "Администрирование",
                 "Отображается страница \"Администрирование\"");
         //1. Отображается страница "Пользователи >> Новый пользователь"
         Allure.step("Нажать на кнопку \"Пользователи\" в меню Администрирования");
-        administration.users.click();
+        administrationPage.users.click();
         Allure.step("Нажать \"Новый пользователь\"");
         userTable.newUser.click();
         AllureAssert.assertEquals(

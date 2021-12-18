@@ -2,16 +2,16 @@ package at.study.redmine.context;
 
 public class Context {
 
-    private static Stash stash;
+    private static ThreadLocal<Stash> stash = new ThreadLocal<>();
 
-    public static Stash getStash(){
-        if(stash == null){
-            stash = new Stash();
+    public static Stash getStash() {
+        if (stash.get() == null) {
+            stash.set(new Stash());
         }
-        return stash;
+        return stash.get();
     }
 
     public static void clearStash() {
-        stash = null;
+        stash.set(null);
     }
 }

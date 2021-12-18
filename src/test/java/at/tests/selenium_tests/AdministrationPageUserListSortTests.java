@@ -12,7 +12,7 @@ import java.util.List;
 import static at.study.redmine.ui.BrowserUtils.getElementsText;
 import static at.study.redmine.utils.CompareUtils.*;
 
-public class AdministrationUserListSortTests extends BaseUITest {
+public class AdministrationPageUserListSortTests extends BaseUITest {
 
     private User admin;
     private User fisrtUser;
@@ -45,12 +45,12 @@ public class AdministrationUserListSortTests extends BaseUITest {
         Allure.step("На главной странице нажать \"Администрирование\"");
         headerPage.administration.click();
         AllureAssert.assertEquals(
-                administration.pageName.getText(),
+                administrationPage.pageName.getText(),
                 "Администрирование",
                 "Отображается страница \"Администрирование\"");
         //1. Отображается таблица с пользователями
         Allure.step("Нажать на кнопку \"Пользователи\" в меню Администрирования");
-        administration.users.click();
+        administrationPage.users.click();
         AllureAssert.assertEquals(
                 userTable.pageName.getText(),
                 "Пользователи",
@@ -75,10 +75,10 @@ public class AdministrationUserListSortTests extends BaseUITest {
         //1. Отображается страница "Администрирование"
         Allure.step("На главной странице нажать \"Администрирование\"");
         headerPage.administration.click();
-        AllureAssert.assertEquals(administration.pageName.getText(), "Администрирование", "Отображается страница \"Администрирование\"");
+        AllureAssert.assertEquals(administrationPage.pageName.getText(), "Администрирование", "Отображается страница \"Администрирование\"");
         //1. Отображается таблица с пользователями
         Allure.step("Нажать на кнопку \"Пользователи\" в меню Администрирования");
-        administration.users.click();
+        administrationPage.users.click();
         AllureAssert.assertEquals(userTable.pageName.getText(), "Пользователи", "\"Отображается таблица с пользователями\"");
         //2. Таблица с пользователями не отсортирована по фамилии
         AllureAssert.assertFalse(isWebListSorted((userTable.lastNames)), "Таблица с пользователями отсортирована по фамилии");

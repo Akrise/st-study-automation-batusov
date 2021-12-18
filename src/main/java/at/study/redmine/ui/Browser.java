@@ -7,6 +7,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -15,53 +16,56 @@ public class Browser {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    Browser(){
+    Browser() {
         this("");
     }
 
-    Browser(String url){
+    Browser(String url) {
         driver = DriverFactory.getDriver();
         driver.manage().window().maximize();
         int timeout = Property.getIntegerProperty("element.timeout.seconds");
-        driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, timeout);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         get(url);
     }
 
     /**
      * Открыть стартовую страницу
      */
-    public void get(){
+    public void get() {
         get("");
     }
 
     /**
      * Открыть страницу по относительному пути
+     *
      * @param url относительный путь, формата /wiki
      */
-    public void get(String url){
+    public void get(String url) {
         getDriver().get(Property.getStringProperty("ui.host") + url);
     }
 
     /**
      * Сделать снимок экрана
+     *
      * @return снимок экрана в виде массива байт
      */
     @Attachment("Скриншот браузера")
     public byte[] takeScreenshot() {
-        return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
-    public Actions actions(){
+    public Actions actions() {
         return new Actions(driver);
     }
 
     /**
      * Выполнить javascript код
-     * @param js javascript код
+     *
+     * @param js   javascript код
      * @param args параметры
      */
-    public void executeJavaScript(String js, Object... args){
-        ((JavascriptExecutor)driver).executeScript(js, args);
+    public void executeJavaScript(String js, Object... args) {
+        ((JavascriptExecutor) driver).executeScript(js, args);
     }
 }

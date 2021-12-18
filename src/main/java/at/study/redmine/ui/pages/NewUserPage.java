@@ -43,12 +43,12 @@ public class NewUserPage extends Page {
     @FindBy(xpath = "//div[@id='content']//div[@class='flash notice']/a[contains(@href,'/users/')]")
     public WebElement newUserUrl;
 
-    public void createRandomUser(){
+    public void createRandomUser() {
         createUser(new User());
     }
 
     @Step("Заполнить поля на странице создания пользователя и нажать кнопку Создать")
-    public void createUser(User user){
+    public void createUser(User user) {
         Allure.step("Заполнить поле Логин");
         login.sendKeys(user.getLogin());
         Allure.step("Заполнить поле Имя");

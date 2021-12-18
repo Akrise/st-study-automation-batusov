@@ -1,10 +1,10 @@
 package at.study.redmine.model.user;
 
 public enum Type {
-    ANONYMOUSUSER("AnonymousUser"),
+    ANONYMOUS_USER("AnonymousUser"),
     USER("User"),
-    GROUPNONMEMBER("GroupNonMember"),
-    GROUPANONYMOUS("GroupAnonymous");
+    GROUP_NON_MEMBER("GroupNonMember"),
+    GROUP_ANONYMOUS("GroupAnonymous");
 
     public final String dbType;
 

@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class EmailRequests implements Create<Email>, Read<Email> {
-    User user;
 
     @Override
     public void create(Email email) {
@@ -28,7 +27,6 @@ public class EmailRequests implements Create<Email>, Read<Email> {
         Integer emailID = (Integer) result.get(0).get("id");
         email.setId(emailID);
     }
-
 
     @Override
     public Email read(Integer id) {

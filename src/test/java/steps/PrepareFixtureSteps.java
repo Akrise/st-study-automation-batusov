@@ -4,6 +4,7 @@ import at.study.redmine.context.Context;
 import at.study.redmine.cucumber.validators.UserParametersValidator;
 import at.study.redmine.model.Email;
 import at.study.redmine.model.Project;
+import at.study.redmine.model.Role;
 import at.study.redmine.model.User;
 
 import at.study.redmine.model.user.Status;
@@ -12,9 +13,7 @@ import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Пусть;
 import io.cucumber.datatable.DataTable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PrepareFixtureSteps {
 
@@ -63,4 +62,36 @@ public class PrepareFixtureSteps {
         project.create();
         Context.getStash().put(stashID, project);
     }
+
+    @Пусть("В системе создана роль (.*)")
+    public void createDefaultRole(String stashID) {
+        Role role = new Role().create();
+        Context.getStash().put(stashID, role);
+    }
+
+    @И("Добавить в проекты пользователей со списоком ролей, с параметрами:")
+    public void addUsersAndRolesToProjects(DataTable dataTable) {
+        List<Map<String, String>> parametersList = dataTable.asMaps();
+        for (Map<String, String> parameters : parametersList) {
+            if (parameters.containsKey("Проект") && parameters.containsKey("Имя пользователя") && parameters.containsKey("Список ролей")) {
+                Project project = Context.getStash().get(parameters.get("Проект"), Project.class);
+                User user = Context.getStash().get(parameters.get("Имя пользователя"), User.class);
+                Set<Role> roleSet = (Set<Role>) Context.getStash().get(parameters.get("Список ролей"), List.class);
+                project.addUser(user, roleSet);
+                project.update(project);
+                Context.getStash().put(parameters.get("Проект"), project);
+            }
+        }
+    }
+
+    @И("Создано множество ролей (.*):")
+    public void createRolesList(String stashID, DataTable dataTable) {
+        List<String> stringRolesList = dataTable.asList(String.class);
+        Set<Role> rolesList = new HashSet<>();
+        for (String role : stringRolesList) {
+            rolesList.add(Context.getStash().get(role, Role.class));
+        }
+        Context.getStash().put(stashID, rolesList);
+    }
+
 }

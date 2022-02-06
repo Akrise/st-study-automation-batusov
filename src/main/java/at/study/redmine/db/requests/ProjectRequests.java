@@ -40,31 +40,7 @@ public class ProjectRequests implements Create<Project>, Read<Project>, Update<P
         Integer id = (Integer) result.get(0).get("id");
         project.setId(id);
 
-        if (project.getMembers().size() != 0) {
-            Map<User, Set<Role>> members = project.getMembers();
-            String membersQuery = "INSERT INTO public.members\n" +
-                    "(id, user_id, project_id,  created_on, mail_notification)\n" +
-                    "VALUES(DEFAULT, ?, ?, ?, ?) RETURNING *;\n";
-            String memberRolesQuery = "INSERT INTO public.member_roles\n" +
-                    "(id, member_id, role_id, inherited_from)\n" +
-                    "VALUES(DEFAULT, ?, ?, ?) RETURNING *;";
-
-            for (Map.Entry<User, Set<Role>> entry : members.entrySet()) {
-                boolean mailNotifications = entry.getKey().getMailNotification() != MailNotification.NONE;
-                List<Map<String, Object>> memberResult = PostgresConnection.INSTANCE.executeQuery(membersQuery,
-                        entry.getKey().getId(),
-                        project.getId(),
-                        project.getCreatedOn(),
-                        mailNotifications);
-                Integer memberId = (Integer) memberResult.get(0).get("id");
-                for (Role role : entry.getValue()) {
-                    PostgresConnection.INSTANCE.executeQuery(memberRolesQuery,
-                            memberId,
-                            role.getId(),
-                            null);
-                }
-            }
-        }
+        createMemberRoles(project);
     }
 
     @Override
@@ -105,5 +81,36 @@ public class ProjectRequests implements Create<Project>, Read<Project>, Update<P
                 project.getDefault_assigned_to_id(),
                 id
         );
+
+        if (project.getMembers().size() != 0)
+            createMemberRoles(project);
+    }
+
+    private void createMemberRoles(Project project){
+        if (project.getMembers().size() != 0) {
+            Map<User, Set<Role>> members = project.getMembers();
+            String membersQuery = "INSERT INTO public.members\n" +
+                    "(id, user_id, project_id,  created_on, mail_notification)\n" +
+                    "VALUES(DEFAULT, ?, ?, ?, ?) RETURNING *;\n";
+            String memberRolesQuery = "INSERT INTO public.member_roles\n" +
+                    "(id, member_id, role_id, inherited_from)\n" +
+                    "VALUES(DEFAULT, ?, ?, ?) RETURNING *;";
+
+            for (Map.Entry<User, Set<Role>> entry : members.entrySet()) {
+                boolean mailNotifications = entry.getKey().getMailNotification() != MailNotification.NONE;
+                List<Map<String, Object>> memberResult = PostgresConnection.INSTANCE.executeQuery(membersQuery,
+                        entry.getKey().getId(),
+                        project.getId(),
+                        project.getCreatedOn(),
+                        mailNotifications);
+                Integer memberId = (Integer) memberResult.get(0).get("id");
+                for (Role role : entry.getValue()) {
+                    PostgresConnection.INSTANCE.executeQuery(memberRolesQuery,
+                            memberId,
+                            role.getId(),
+                            null);
+                }
+            }
+        }
     }
 }

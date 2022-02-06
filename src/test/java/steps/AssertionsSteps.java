@@ -76,4 +76,16 @@ public class AssertionsSteps {
                 "На странице отображается проект " + stashID
         );
     }
+
+    @И("На странице (.*) в множестве (.*) отсутствует проект (.*)")
+    public void listNotContainsEntity(String pageName, String listName, String stashID) {
+        String expectedProjectName = ((Project) Context.getStash().get(stashID)).getName();
+        AllureAssert.assertFalse(
+                PageObjectHelper.findElementsList(pageName, listName)
+                        .stream()
+                        .map(WebElement::getText)
+                        .anyMatch(projectName -> projectName.equals(expectedProjectName)),
+                "На странице отображается проект " + stashID
+        );
+    }
 }

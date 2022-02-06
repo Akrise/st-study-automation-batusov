@@ -61,7 +61,7 @@ public class ProjectsVisibilityForUserTests extends BaseUITest {
         List<String> projectNames = getElementsText(projectsPage.titles);
         AllureAssert.assertTrue(projectNames.contains(publicProject.getName()), "На странице отображается  публичный проект (№ 1");
         //3. Не отображается приватный проект (№ 2)
-        AllureAssert.assertFalse(projectNames.contains(privateProject.getName()), "На странице отображается  приватный проект (№ 2");
+        AllureAssert.assertFalse(projectNames.contains(privateProject.getName()), "На странице не отображается  приватный проект (№ 2");
         //4. Отображается приватный проект (№ 3)
         AllureAssert.assertTrue(projectNames.contains(privateUsersProject.getName()), "На странице отображается  приватный проект (№ 3");
     }

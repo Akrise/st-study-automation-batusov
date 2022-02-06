@@ -52,6 +52,11 @@ public class PrepareFixtureSteps {
         Context.getStash().put(stashID, user);
     }
 
+    @Пусть("В системе создан пользователь с параметрами по умолчанию (.*)")
+    public void createDefaultUser(String stashID) {
+       createAdmin(stashID, Collections.EMPTY_MAP);
+    }
+
     @И("В системе создан проект (.*) со следующими параметрами:")
     public void createProject(String stashID, Map<String, String> parameters) {
         //TODO сделать валидатор

@@ -10,10 +10,15 @@ import at.study.redmine.ui.pages.LoginPage;
 import at.study.redmine.ui.pages.Page;
 import at.study.redmine.context.Context;
 import at.study.redmine.model.User;
+import at.study.redmine.utils.CompareUtils;
+import cucumber.api.java.mn.Харин;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Но;
 import cucumber.api.java.ru.То;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AssertionsSteps {
 
@@ -88,4 +93,16 @@ public class AssertionsSteps {
                 "На странице отображается проект " + stashID
         );
     }
+
+    @И("Таблица отсортирована в порядке (.*), ключ сортировки (.*)")
+    public void tableIsSortedBy(String sortKind, String column) {
+        List<String> columnFields = PageObjectHelper.findElementsList("Пользователи", column).stream().map(WebElement::getText).collect(Collectors.toList());
+        if (sortKind.equals("убывания")) {
+            AllureAssert.assertTrue(CompareUtils.isListSortedByDesc(columnFields), "Таблица отсортирована по убыванию, ключ:" + column);
+        } else if (sortKind.equals("возрастания")) {
+            AllureAssert.assertTrue(CompareUtils.isListSortedByAsc(columnFields), "Таблица отсортирована по возрастанию, ключ:" + column);
+        } else
+            throw new IllegalArgumentException("Не найден тип сортировки, используйте слова убывания/возрастания. Полученное слово:" + sortKind);
+    }
 }
+

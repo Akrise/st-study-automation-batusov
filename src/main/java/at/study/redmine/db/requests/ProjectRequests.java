@@ -86,7 +86,7 @@ public class ProjectRequests implements Create<Project>, Read<Project>, Update<P
             createMemberRoles(project);
     }
 
-    private void createMemberRoles(Project project){
+    private void createMemberRoles(Project project) {
         if (project.getMembers().size() != 0) {
             Map<User, Set<Role>> members = project.getMembers();
             String membersQuery = "INSERT INTO public.members\n" +

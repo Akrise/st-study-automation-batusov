@@ -30,6 +30,11 @@ public class UISteps {
         PageObjectHelper.findElement(pageName, elementName).click();
     }
 
+    @И("Нажать на кнопку (.*)")
+    public void clickButtonByText(String buttonText) {
+        Page.getPage(HeaderPage.class).button(buttonText).click();
+    }
+
     @И("На странице (.*) ввести в поле (.*) текст (.*)")
     public void inputTextInField(String pageName, String fieldName, String text) {
         PageObjectHelper.findElement(pageName, fieldName).sendKeys(text);

@@ -94,15 +94,21 @@ public class AssertionsSteps {
         );
     }
 
-    @И("Таблица отсортирована в порядке (.*), ключ сортировки (.*)")
-    public void tableIsSortedBy(String sortKind, String column) {
-        List<String> columnFields = PageObjectHelper.findElementsList("Пользователи", column).stream().map(WebElement::getText).collect(Collectors.toList());
+    @И("Таблица на странице (.*) отсортирована в порядке (.*), ключ сортировки (.*)")
+    public void tableIsSortedBy(String pageName, String sortKind, String column) {
+        List<String> columnFields = PageObjectHelper.findElementsList(pageName, column).stream().map(WebElement::getText).collect(Collectors.toList());
         if (sortKind.equals("убывания")) {
             AllureAssert.assertTrue(CompareUtils.isListSortedByDesc(columnFields), "Таблица отсортирована по убыванию, ключ:" + column);
         } else if (sortKind.equals("возрастания")) {
             AllureAssert.assertTrue(CompareUtils.isListSortedByAsc(columnFields), "Таблица отсортирована по возрастанию, ключ:" + column);
         } else
             throw new IllegalArgumentException("Не найден тип сортировки, используйте слова убывания/возрастания. Полученное слово:" + sortKind);
+    }
+
+    @То("Таблица на странице (.*)  не отсортирована по ключу: (.*)")
+    public void tableIsNotSortedBy(String pageName, String column) {
+        List<String> columnFields = PageObjectHelper.findElementsList(pageName, column).stream().map(WebElement::getText).collect(Collectors.toList());
+        AllureAssert.assertFalse(CompareUtils.isListSorted(columnFields), "Таблица не отсортирована по ключу: " + column);
     }
 }
 

@@ -2,10 +2,7 @@ package steps;
 
 import at.study.redmine.context.Context;
 import at.study.redmine.cucumber.validators.UserParametersValidator;
-import at.study.redmine.model.Email;
-import at.study.redmine.model.Project;
-import at.study.redmine.model.Role;
-import at.study.redmine.model.User;
+import at.study.redmine.model.*;
 
 import at.study.redmine.model.user.Status;
 import cucumber.api.java.mn.Харин;
@@ -38,6 +35,7 @@ public class PrepareFixtureSteps {
     public void createAdmin(String stashID, Map<String, String> parameters) {
         UserParametersValidator.validateUserParameters(parameters.keySet());
         User user = new User();
+        user.setEmails(Collections.singletonList(new Email(user)));
         //TODO расширить список возможных параметров
         if (parameters.containsKey("Администратор")) {
             user.setIsAdmin(Boolean.parseBoolean(parameters.get("Администратор")));
@@ -48,7 +46,34 @@ public class PrepareFixtureSteps {
         if (parameters.containsKey("E-mail")) {
             user.setEmails(Context.getStash().get(parameters.get("E-mail"), List.class));
         }
+        if (parameters.containsKey("API key") && Boolean.parseBoolean(parameters.get("API key"))){
+            List<Token> tokens = new ArrayList<>();
+            tokens.add(new Token(user));
+            user.setTokens(tokens);
+        }
         user.create();
+        Context.getStash().put(stashID, user);
+    }
+
+    @Пусть("Подготовлен к созданию пользователь (.*) со следующими параметрами:")
+    public void userToCreateFunction(String stashID, Map<String, String> parameters) {
+        UserParametersValidator.validateUserParameters(parameters.keySet());
+        User user = new User();
+        user.setEmails(Collections.singletonList(new Email(user)));
+        if (parameters.containsKey("Администратор")) {
+            user.setIsAdmin(Boolean.parseBoolean(parameters.get("Администратор")));
+        }
+        if (parameters.containsKey("Статус")) {
+            user.setStatus(Status.getValue(parameters.get("Статус")));
+        }
+        if (parameters.containsKey("E-mail")) {
+            user.setEmails(Context.getStash().get(parameters.get("E-mail"), List.class));
+        }
+        if (parameters.containsKey("API key") && Boolean.parseBoolean(parameters.get("API key"))){
+            List<Token> tokens = new ArrayList<>();
+            tokens.add(new Token(user));
+            user.setTokens(tokens);
+        }
         Context.getStash().put(stashID, user);
     }
 
@@ -97,6 +122,23 @@ public class PrepareFixtureSteps {
             rolesList.add(Context.getStash().get(role, Role.class));
         }
         Context.getStash().put(stashID, rolesList);
+    }
+
+    @И("Изменить параметры пользователя (.*):")
+    public void changeUserParams(String username, Map<String, String> parameters){
+        UserParametersValidator.validateUserParameters(parameters.keySet());
+        User user = (User)Context.getStash().get(username);
+        if(parameters.containsKey("E-mail")){
+            Email email = new Email();
+            email.setIsDefault(true);
+            email.setAddress(parameters.get("E-mail"));
+            email.setUserId(user.getId());
+            user.setEmails(Collections.singletonList(email));
+        }
+        if(parameters.containsKey("Password")){
+            user.setPassword(parameters.get("Password"));
+        }
+        Context.getStash().put(username, user);
     }
 
 }

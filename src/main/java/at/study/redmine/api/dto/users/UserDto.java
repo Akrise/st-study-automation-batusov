@@ -38,6 +38,9 @@ public class UserDto {
     private String apiKey;
 
     public UserDto(User user) {
+        if(user.getId()!=null){
+            id = user.getId();
+        }
         login = user.getLogin();
         admin = user.getIsAdmin();
         status = user.getStatus().statusCode;

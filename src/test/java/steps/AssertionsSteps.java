@@ -1,23 +1,27 @@
 package steps;
 
 import at.study.redmine.allure.asserts.AllureAssert;
+import at.study.redmine.api.client.RestResponse;
+import at.study.redmine.api.dto.users.UserInfoDto;
 import at.study.redmine.cucumber.PageObjectHelper;
+import at.study.redmine.db.requests.UserRequests;
 import at.study.redmine.model.Project;
+import at.study.redmine.model.user.Status;
 import at.study.redmine.ui.BrowserManager;
-import at.study.redmine.ui.BrowserUtils;
 import at.study.redmine.ui.pages.HeaderPage;
 import at.study.redmine.ui.pages.LoginPage;
 import at.study.redmine.ui.pages.Page;
 import at.study.redmine.context.Context;
 import at.study.redmine.model.User;
 import at.study.redmine.utils.CompareUtils;
-import cucumber.api.java.mn.Харин;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Но;
 import cucumber.api.java.ru.То;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class AssertionsSteps {
@@ -109,6 +113,53 @@ public class AssertionsSteps {
     public void tableIsNotSortedBy(String pageName, String column) {
         List<String> columnFields = PageObjectHelper.findElementsList(pageName, column).stream().map(WebElement::getText).collect(Collectors.toList());
         AllureAssert.assertFalse(CompareUtils.isListSorted(columnFields), "Таблица не отсортирована по ключу: " + column);
+    }
+
+    @То("Статус код ответа на запрос (.*) равен (.*)")
+    public void responseCodeAssert(String requestName, String responseCode) {
+        RestResponse response = (RestResponse) Context.getStash().get(requestName + " response");
+        AllureAssert.assertEquals(response.getStatusCode(), Integer.parseInt(responseCode), "Код ответа равен " + responseCode);
+    }
+
+    @То("В ответе на запрос (.*) получены:")
+    public void responsePayloadAssert(String requestName, Map<String, String> parameters) {
+        RestResponse response = (RestResponse) Context.getStash().get(requestName + " response");
+        UserInfoDto userInfoDtoResponse = response.getPayload(UserInfoDto.class);
+        if (parameters.containsKey("id")) {
+            if (parameters.get("id").equals("NotNull")) {
+                AllureAssert.assertNotNull(userInfoDtoResponse.getUser().getId());
+            }
+        }
+        if (parameters.containsKey("status")) {
+            AllureAssert.assertEquals(Integer.parseInt(parameters.get("status")), userInfoDtoResponse.getUser().getStatus());
+        }
+        if (parameters.containsKey("error1")) {
+            for (int i = 1; parameters.containsKey("error" + i); i++) {
+                AllureAssert.assertTrue(userInfoDtoResponse.getErrors().contains(parameters.get("error" + i)), "В ответе получена ошибка " + parameters.get("error" + i));
+            }
+        }
+    }
+
+    @То("Запросом к БД проверить информацию о пользователе (.*):")
+    public void checkUserFromDB(String requestName, Map<String, String> parameters) {
+        User user = Context.getStash().get(requestName, User.class);
+        Integer userID = user.getId();
+        if (parameters.containsKey("status")) {
+            AllureAssert.assertEquals(new UserRequests().read(userID).getStatus(), Status.getValue(Integer.parseInt(parameters.get("status"))));
+        }
+    }
+
+    @И("В базе данных отсутсвует информация о пользователе (.*)")
+    public void noUserInDB(String userName) {
+        User user = Context.getStash().get(userName, User.class);
+        Integer userID = user.getId();
+        Boolean exCathed = false;
+        try {
+            new UserRequests().read(userID);
+        } catch (NoSuchElementException e) {
+            exCathed = true;
+        }
+        AllureAssert.assertTrue(exCathed, "Пользователь не найден в БД");
     }
 }
 

@@ -77,6 +77,11 @@ public class PrepareFixtureSteps {
         Context.getStash().put(stashID, user);
     }
 
+    @Пусть("Подготовлен к созданию пользователь (.*)")
+    public void userToCreateFunctionNoParameters(String userName){
+        userToCreateFunction(userName, Collections.EMPTY_MAP);
+    }
+
     @Пусть("В системе создан пользователь с параметрами по умолчанию (.*)")
     public void createDefaultUser(String stashID) {
        createAdmin(stashID, Collections.EMPTY_MAP);

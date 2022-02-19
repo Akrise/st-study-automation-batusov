@@ -27,7 +27,7 @@ public class APISteps {
         RestApiClient restAssuredClient = new RestAssuredClient(Context.getStash().get(executor, User.class));
         RestRequest request = new RestAssuredRequest(POST, "/users.json", null, null, new Gson().toJson(userInfoDto));
         RestResponse response = restAssuredClient.execute(request);
-        if (response.getPayload(UserInfoDto.class).getUser() != null) {
+        if (!response.getPayload().isEmpty() && response.getPayload(UserInfoDto.class).getUser() != null) {
             user.setId(response.getPayload(UserInfoDto.class).getUser().getId());
             Context.getStash().put(username, user);
         }

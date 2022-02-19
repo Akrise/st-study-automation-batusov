@@ -19,4 +19,8 @@ public class Stash {
     public <T> T get(String key, Class<T> clazz){
         return (T) enities.get(key);
     }
+
+    public boolean contains(String key){
+        return enities.containsKey(key);
+    }
 }

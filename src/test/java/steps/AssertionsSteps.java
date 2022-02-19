@@ -6,6 +6,7 @@ import at.study.redmine.api.dto.users.UserInfoDto;
 import at.study.redmine.cucumber.PageObjectHelper;
 import at.study.redmine.db.requests.UserRequests;
 import at.study.redmine.model.Project;
+import at.study.redmine.model.Token;
 import at.study.redmine.model.user.Status;
 import at.study.redmine.ui.BrowserManager;
 import at.study.redmine.ui.pages.HeaderPage;
@@ -121,6 +122,11 @@ public class AssertionsSteps {
         AllureAssert.assertEquals(response.getStatusCode(), Integer.parseInt(responseCode), "Код ответа равен " + responseCode);
     }
 
+    /**
+     * Шаг проверки ответа на запрос
+     * @param requestName Имя запроса к API
+     * @param parameters Для проверки параметров возможна передача - прямых значений, значения null, связанного значения из UserInfoDto по StashID.
+     */
     @То("В ответе на запрос (.*) получены:")
     public void responsePayloadAssert(String requestName, Map<String, String> parameters) {
         RestResponse response = (RestResponse) Context.getStash().get(requestName + " response");
@@ -137,6 +143,36 @@ public class AssertionsSteps {
             for (int i = 1; parameters.containsKey("error" + i); i++) {
                 AllureAssert.assertTrue(userInfoDtoResponse.getErrors().contains(parameters.get("error" + i)), "В ответе получена ошибка " + parameters.get("error" + i));
             }
+        }
+        if(parameters.containsKey("API key") && Context.getStash().contains(parameters.get("API key"))){
+            User user = Context.getStash().get(parameters.get("API key"), User.class);
+            AllureAssert.assertEquals(userInfoDtoResponse.getUser().getApiKey(), user.getTokens().stream().filter(s -> s.getAction()== Token.TokenType.API).map(s -> s.getValue()).findFirst().get(), "API key из запросов совпадают");
+        }
+        if(parameters.containsKey("API key") && parameters.get("API key") == null){
+            Boolean exCathed = false;
+            try {
+                userInfoDtoResponse.getUser().getApiKey();
+            } catch (NoSuchElementException e) {
+                exCathed = true;
+            }
+            AllureAssert.assertTrue(exCathed, "Пользователь не найден в БД");
+        }
+        if(parameters.containsKey("firstname") &&  Context.getStash().contains(parameters.get("firstname"))){
+            User user = Context.getStash().get(parameters.get("firstname"), User.class);
+            AllureAssert.assertEquals(userInfoDtoResponse.getUser().getFirstName(), user.getFirstName(), "Имена пользователей из запросов совпадают");
+        }
+        if(parameters.containsKey("lastname") &&  Context.getStash().contains(parameters.get("lastname"))){
+            User user = Context.getStash().get(parameters.get("lastname"), User.class);
+            AllureAssert.assertEquals(userInfoDtoResponse.getUser().getLastName(), user.getLastName(), "Фамилии пользователей из запросов совпадают");
+        }
+        if(parameters.containsKey("admin") && parameters.get("admin") == null){
+            Boolean exCathed = false;
+            try {
+                userInfoDtoResponse.getUser().getAdmin();
+            } catch (NoSuchElementException e) {
+                exCathed = true;
+            }
+            AllureAssert.assertTrue(exCathed, "Пользователь не найден в БД");
         }
     }
 
@@ -156,10 +192,17 @@ public class AssertionsSteps {
         Boolean exCathed = false;
         try {
             new UserRequests().read(userID);
-        } catch (NoSuchElementException e) {
+        } catch (NullPointerException e) {
             exCathed = true;
         }
         AllureAssert.assertTrue(exCathed, "Пользователь не найден в БД");
+    }
+
+    @И("Пользователь (.*) присутствует в БД")
+    public void userFoundInDB(String userName){
+        User user = Context.getStash().get(userName, User.class);
+        Integer userID = user.getId();
+        AllureAssert.assertNotNull(new UserRequests().read(userID));
     }
 }
 

@@ -1,12 +1,17 @@
 package steps;
 
 import at.study.redmine.allure.asserts.AllureAssert;
+import at.study.redmine.context.Context;
 import at.study.redmine.cucumber.PageObjectHelper;
+import at.study.redmine.model.User;
 import at.study.redmine.ui.BrowserUtils;
 import at.study.redmine.ui.pages.HeaderPage;
+import at.study.redmine.ui.pages.NewUserPage;
 import at.study.redmine.ui.pages.Page;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+
+import java.util.Map;
 
 public class UISteps {
 
@@ -40,4 +45,10 @@ public class UISteps {
         PageObjectHelper.findElement(pageName, fieldName).sendKeys(text);
     }
 
+    @И("Заполнить поля \"Пользователь\", \"Имя\", \"Фамилия\", \"Email\" корректными значениями пользователя (.*) и нажать Создать")
+    public void inputTextInMultipleFields(String userName) {
+        User user = new User();
+        Page.getPage(NewUserPage.class).createUser(user);
+        Context.getStash().put(userName, user);
+    }
 }

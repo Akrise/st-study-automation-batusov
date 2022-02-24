@@ -11,6 +11,7 @@ import at.study.redmine.model.user.Status;
 import at.study.redmine.ui.BrowserManager;
 import at.study.redmine.ui.pages.HeaderPage;
 import at.study.redmine.ui.pages.LoginPage;
+import at.study.redmine.ui.pages.NewUserPage;
 import at.study.redmine.ui.pages.Page;
 import at.study.redmine.context.Context;
 import at.study.redmine.model.User;
@@ -124,8 +125,9 @@ public class AssertionsSteps {
 
     /**
      * Шаг проверки ответа на запрос
+     *
      * @param requestName Имя запроса к API
-     * @param parameters Для проверки параметров возможна передача - прямых значений, значения null, связанного значения из UserInfoDto по StashID.
+     * @param parameters  Для проверки параметров возможна передача - прямых значений, значения null, связанного значения из UserInfoDto по StashID.
      */
     @То("В ответе на запрос (.*) получены:")
     public void responsePayloadAssert(String requestName, Map<String, String> parameters) {
@@ -144,11 +146,11 @@ public class AssertionsSteps {
                 AllureAssert.assertTrue(userInfoDtoResponse.getErrors().contains(parameters.get("error" + i)), "В ответе получена ошибка " + parameters.get("error" + i));
             }
         }
-        if(parameters.containsKey("API key") && Context.getStash().contains(parameters.get("API key"))){
+        if (parameters.containsKey("API key") && Context.getStash().contains(parameters.get("API key"))) {
             User user = Context.getStash().get(parameters.get("API key"), User.class);
-            AllureAssert.assertEquals(userInfoDtoResponse.getUser().getApiKey(), user.getTokens().stream().filter(s -> s.getAction()== Token.TokenType.API).map(s -> s.getValue()).findFirst().get(), "API key из запросов совпадают");
+            AllureAssert.assertEquals(userInfoDtoResponse.getUser().getApiKey(), user.getTokens().stream().filter(s -> s.getAction() == Token.TokenType.API).map(s -> s.getValue()).findFirst().get(), "API key из запросов совпадают");
         }
-        if(parameters.containsKey("API key") && parameters.get("API key") == null){
+        if (parameters.containsKey("API key") && parameters.get("API key") == null) {
             Boolean exCathed = false;
             try {
                 userInfoDtoResponse.getUser().getApiKey();
@@ -157,15 +159,15 @@ public class AssertionsSteps {
             }
             AllureAssert.assertTrue(exCathed, "Пользователь не найден в БД");
         }
-        if(parameters.containsKey("firstname") &&  Context.getStash().contains(parameters.get("firstname"))){
+        if (parameters.containsKey("firstname") && Context.getStash().contains(parameters.get("firstname"))) {
             User user = Context.getStash().get(parameters.get("firstname"), User.class);
             AllureAssert.assertEquals(userInfoDtoResponse.getUser().getFirstName(), user.getFirstName(), "Имена пользователей из запросов совпадают");
         }
-        if(parameters.containsKey("lastname") &&  Context.getStash().contains(parameters.get("lastname"))){
+        if (parameters.containsKey("lastname") && Context.getStash().contains(parameters.get("lastname"))) {
             User user = Context.getStash().get(parameters.get("lastname"), User.class);
             AllureAssert.assertEquals(userInfoDtoResponse.getUser().getLastName(), user.getLastName(), "Фамилии пользователей из запросов совпадают");
         }
-        if(parameters.containsKey("admin") && parameters.get("admin") == null){
+        if (parameters.containsKey("admin") && parameters.get("admin") == null) {
             Boolean exCathed = false;
             try {
                 userInfoDtoResponse.getUser().getAdmin();
@@ -199,10 +201,20 @@ public class AssertionsSteps {
     }
 
     @И("Пользователь (.*) присутствует в БД")
-    public void userFoundInDB(String userName){
+    public void userFoundInDB(String userName) {
         User user = Context.getStash().get(userName, User.class);
         Integer userID = user.getId();
         AllureAssert.assertNotNull(new UserRequests().read(userID));
     }
+
+    @То("Отображается сообщение Пользователь <логин> создан с данными пользователя (.*)")
+    public void popupUserCreated(String userName) {
+        User user = Context.getStash().get(userName, User.class);
+        AllureAssert.assertEquals(Page.getPage(NewUserPage.class).notice.getText(), "Пользователь " + user.getLogin() + " создан.", "Отображается сообщение \"Пользователь " + user.getLogin() + " создан.\"");
+        Integer userID = Integer.parseInt(Page.getPage(NewUserPage.class).newUserUrl.getAttribute("href").replaceAll("[^0-9]", ""));
+        user.setId(userID);
+        Context.getStash().put(userName, user);
+    }
+
 }
 
